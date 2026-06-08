@@ -192,6 +192,7 @@
 																			<label>Total Qty<span class="text-danger">*</span></label>
 																			<input type="text" class="form-control form-control-sm job_item_total_qty" name="input[<?php echo $i; ?>][job_item_total_qty]" value="<?= $list->job_item_total_qty; ?>" readonly required>
 																		</div>
+																		<div class="form-group col-md-3"></div>
 
 																		<div class="form-group col-md-3 ">
 																			<label>OK Qty<span class="text-danger">*</span></label>
@@ -236,9 +237,9 @@
 																				<?php } } ?>
 																			</select>
 																		</div> -->
-																		<div class="form-group col-md-3"></div>
+																		<!-- <div class="form-group col-md-3"></div> -->
 
-																		<div class="form-group col-md-3 ">
+																		<div class="form-group col-md-3 offset-md-3">
 																			<label>Pending Qty<span class="text-danger">*</span></label>
 																			<input type="text" class="form-control form-control-sm job_item_pending_qty" name="input[<?php echo $i; ?>][job_item_pending_qty]" value="<?= $list->job_item_pending_qty; ?>" required readonly>
 																		</div>
@@ -302,7 +303,7 @@
 																				<?php } } ?>
 																			</select>
 																		</div>
-																		<!-- <div class="form-group col-md-3 select_sm">
+																		<div class="form-group col-md-3 select_sm">
 																			<label>Department<span class="text-danger">*</span></label>
 																			<select class="form-control select2 form-control-sm w-100 department_id" name="input[0][department_id]" data-placeholder="Select Department" required>
 																				<option value="">Select Department</option>
@@ -310,17 +311,19 @@
 																				<option value="<?php echo $department_list2->department_id; ?>" <?php if($department_list2->department_status == 0){ echo ' disabled'; } ?> ><?php echo $department_list2->department_name; ?></option>
 																				<?php } } ?>
 																			</select>
-																		</div> -->
+																		</div>
 																		<div class="form-group col-md-3">
 																			<label>Total Qty<span class="text-danger">*</span></label>
 																			<input type="text" class="form-control form-control-sm job_item_total_qty" name="input[0][job_item_total_qty]" readonly required>
 																		</div>
+																		<div class="form-group col-md-3"></div>
+
 
 																		<div class="form-group col-md-3 ">
 																			<label>OK Qty<span class="text-danger">*</span></label>
 																			<input type="text" class="form-control form-control-sm job_item_ok_qty" name="input[0][job_item_ok_qty]" required>
 																		</div>
-																		<!-- <div class="form-group col-md-3 select_sm">
+																		<div class="form-group col-md-3 select_sm">
 																			<label>Department<span class="text-danger">*</span></label>
 																			<select class="form-control select2 form-control-sm w-100 ok_department_id" name="input[0][ok_department_id]" data-placeholder="Select Department" required>
 																				<option value="">Select Department</option>
@@ -328,8 +331,8 @@
 																				<option value="<?php echo $department_list2->department_id; ?>" <?php if($department_list2->department_status == 0){ echo ' disabled'; } ?> ><?php echo $department_list2->department_name; ?></option>
 																				<?php } } ?>
 																			</select>
-																		</div> -->
-																		<!-- <div class="form-group col-md-3"></div> -->
+																		</div>
+																		<div class="form-group col-md-3"></div>
 
 																		<!-- <div class="form-group col-md-3 offset-md-3">
 																			<label>Rejected Qty</label>
@@ -361,7 +364,7 @@
 																		</div> -->
 																		<!-- <div class="form-group col-md-3"></div> -->
 
-																		<div class="form-group col-md-3 ">
+																		<div class="form-group col-md-3 offset-md-3">
 																			<label>Pending Qty<span class="text-danger">*</span></label>
 																			<input type="text" class="form-control form-control-sm job_item_pending_qty" name="input[0][job_item_pending_qty]" required readonly>
 																		</div>
@@ -813,7 +816,8 @@
 						'<label>Total Qty<span class="text-danger">*</span></label>'+
 						'<input type="text" class="form-control form-control-sm job_item_total_qty" name="input['+i+'][job_item_total_qty]" readonly required>'+
 					'</div>'+
-					'<div class="form-group col-md-3 ">'+
+					
+																		'<div class="form-group col-md-3"></div><div class="form-group col-md-3 ">'+
 						'<label>OK Qty<span class="text-danger">*</span></label>'+
 						'<input type="text" class="form-control form-control-sm job_item_ok_qty" name="input['+i+'][job_item_ok_qty]" required>'+
 					'</div>'+
@@ -856,7 +860,7 @@
 					// 	'</select>'+
 					// '</div>'+
 					+'<div class="form-group col-md-3"></div>'+
-					'<div class="form-group col-md-3 ">'+
+					'<div class="form-group col-md-3 offset-md-3">'+
 						'<label>Pending Qty<span class="text-danger">*</span></label>'+
 						'<input type="text" class="form-control form-control-sm job_item_pending_qty" name="input['+i+'][job_item_pending_qty]" required readonly>'+
 					'</div>'+
