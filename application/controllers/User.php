@@ -279,37 +279,37 @@ class User extends CI_Controller
           $this->db->where_in('process_type_id', $delete_process);
           $this->db->delete('user_process_type');
         }
-       
+
 
         $current_dept = $this->db
-    ->select('department_id')
-    ->where('user_id', $user_id)
-    ->get('user_dept')
-    ->result_array();
+          ->select('department_id')
+          ->where('user_id', $user_id)
+          ->get('user_dept')
+          ->result_array();
 
-$current_dept = array_column($current_dept, 'department_id');
-$new_dept = $this->input->post('department_id');
+        $current_dept = array_column($current_dept, 'department_id');
+        $new_dept = $this->input->post('department_id');
 
-// New IDs to insert
-$insert_dept = array_diff($new_dept, $current_dept);
+        // New IDs to insert
+        $insert_dept = array_diff($new_dept, $current_dept);
 
-// IDs to delete
-$delete_dept = array_diff($current_dept, $new_dept);
+        // IDs to delete
+        $delete_dept = array_diff($current_dept, $new_dept);
 
-// Insert new
-foreach ($insert_dept as $dept_id) {
-    $this->Master_Model->save_data('user_dept', [
-        'user_id' => $user_id,
-        'department_id' => $dept_id
-    ]);
-}
+        // Insert new
+        foreach ($insert_dept as $dept_id) {
+          $this->Master_Model->save_data('user_dept', [
+            'user_id' => $user_id,
+            'department_id' => $dept_id
+          ]);
+        }
 
-// Delete removed
-if (!empty($delete_dept)) {
-    $this->db->where('user_id', $user_id);
-    $this->db->where_in('department_id', $delete_dept);
-    $this->db->delete('user_dept');
-}
+        // Delete removed
+        if (!empty($delete_dept)) {
+          $this->db->where('user_id', $user_id);
+          $this->db->where_in('department_id', $delete_dept);
+          $this->db->delete('user_dept');
+        }
 
         // Image Upload...
         if ($_FILES['user_image']['name']) {
@@ -368,7 +368,16 @@ if (!empty($delete_dept)) {
     $this->db->from('admi_department');
     $this->db->where_in('process_type_id', $selected_process);
     $this->db->order_by('department_name', 'ASC');
-    $data['department_list'] = $this->db->get()->result();
+    // $data['department_list'] = $this->db->get()->result();
+
+    $query = $this->db->get();
+
+    if (!empty($selected_process)) {
+      $data['department_list'] = $query->result();
+    } else {
+      $data['department_list'] = [];
+    }
+
 
     $data['selected_department'] = $selected_department;
     $data['main_menu'] = "Company";

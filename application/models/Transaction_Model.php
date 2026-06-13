@@ -9,7 +9,7 @@ class Transaction_Model extends CI_Model{
 /**************************************************************************************************************/
 
 
-	public function get_po_report($from_date,$to_date,$party_id,$item_id,$process_type_id){
+	public function get_po_report($from_date,$to_date,$party_id,$item_id,$process_type_id,$grade_id){
 
 		$this->db->select('admi_po_item.*,admi_party.party_name,admi_item.item_casting_drw_no,admi_item.item_finished_drw_no,
 		admi_grade.grade_name,admi_process_type.process_type_name,admi_purchase_order.purchase_order_no');
@@ -21,9 +21,9 @@ class Transaction_Model extends CI_Model{
 		if($item_id){
 			$this->db->where('admi_po_item.item_id', $item_id);
 		}
-		// if($grade_id){
-		// 	$this->db->where('admi_po_item.grade_id', $grade_id);
-		// }
+		if($grade_id){
+			$this->db->where('admi_po_item.grade_id', $grade_id);
+		}
 		if($process_type_id){
 			$this->db->where('admi_po_item.process_type_id', $process_type_id);
 		}
@@ -39,6 +39,9 @@ class Transaction_Model extends CI_Model{
 		$this->db->order_by('admi_po_item.po_item_id', 'ASC');
 		$query = $this->db->get();
 		$result = $query->result();
+		
+		
+		
 		return $result;
 		// return $this->db->last_query();
 	}

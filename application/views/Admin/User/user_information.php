@@ -41,12 +41,12 @@
 									</div>
 				
 									<div class="card-body p-0" <?php if(isset($update)){ echo 'style="display: block;"'; } else{ echo 'style="display: none;"'; } ?>>
-										<form class="input_form m-0 needs-validation" novalidate id="form_action" role="form" action="" method="post" enctype="multipart/form-data">
+										<form class="input_form m-0 needs-validation" novalidate id="form_action" role="form" action="" method="post" autocomplete="off" enctype="multipart/form-data">
 											<div class="row p-4">
 												<div class="form-group col-md-6 row">
 													<div class="form-group col-md-12 mb-1">
 														<label>Name of User<span class="text-danger">*</span></label>
-														<input type="text" class="form-control form-control-sm alphabet capitalize" name="user_name" id="user_name" value="<?php if(isset($user_info)){ echo $user_info['user_name']; } ?>"  placeholder="Enter Name of User" required >
+														<input type="text" class="form-control form-control-sm alphabet capitalize" name="user_name" id="user_name" value="<?php if(isset($user_info)){ echo $user_info['user_name']; } ?>" autocomplete="off" placeholder="Enter Name of User" required >
 														<div class="invalid-feedback">
 															Please enter User Name.
 														</div>

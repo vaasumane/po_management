@@ -1,7 +1,10 @@
 // Valid Email...
+
 $(document).on('change','.alphabet',function(){
   var alphabet_format = /^[a-zA-Z\s]+$/;
   var alphabet = $(this).val();
+  console.log(alphabet);
+  
   if (alphabet_format.test(alphabet)){
 
   } else{

@@ -230,6 +230,7 @@ class Transaction extends CI_Controller
 
 					$dep_qty_info = $this->Master_Model->get_data('admi_dep_qty', '*', ['department_id' => $multi_data['department_id'], 'po_item_id' => $multi_data['po_item_id'], 'dep_qty_entry_type' => '1'], '`dep_qty_id` DESC', 'result');
 
+
 					if (empty($dep_qty_info)) {
 						// Add Main Qty..
 						$main_add['company_id'] = $admi_user_data['company_id'];

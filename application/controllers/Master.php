@@ -3004,8 +3004,8 @@ class Master extends CI_Controller
 		$this->db->where_in('process_type_id', $process_type_id);
 		$this->db->order_by('department_name', 'ASC');
 		$department_list = $this->db->get()->result();
-		
-		echo "<option value='' selected >Select Main Category</option>";
+
+		// echo "<option value='' selected >Select Main Category</option>";
 		foreach ($department_list as $list) {
 			echo "<option value='" . $list->department_id . "' > " . $list->department_name . " </option>";
 		}
@@ -3019,8 +3019,22 @@ class Master extends CI_Controller
 		if ($admi_user_data['role_id'] == '1') {
 			$department_list = $this->Master_Model->get_data('admi_department', '*', ['process_type_id' => $process_type_id], '`department_name` ASC', 'result');
 		} else {
-			$department_list = $this->Master_Model->get_data('admi_department', '*', ['process_type_id' => $process_type_id, 'department_id' => $admi_user_data['department_id']], '`department_name` ASC', 'result');
+			$userDebtIds = $this->Master_Model->get_data(
+				'user_dept',
+				'department_id',
+				['user_id' => $_SESSION['admi_user_data']['user_id']],
+				'`id` ASC',
+				'result'
+			);
+
+			$department_id = array_column($userDebtIds, 'department_id');
+
+			$this->db->where_in('department_id', $department_id);
+			$this->db->where('process_type_id', $process_type_id);
+			$department_list = $this->db->get('admi_department')->result();
+			// $department_list = $this->Master_Model->get_data('admi_department', '*', ['process_type_id' => $process_type_id, 'department_id' => $admi_user_data['department_id']], '`department_name` ASC', 'result');
 		}
+
 
 		echo "<option value='' selected >Select Main Category</option>";
 		foreach ($department_list as $list) {
@@ -3069,12 +3083,40 @@ class Master extends CI_Controller
 		$item_id = $this->input->post('item_id');
 		$item_data = $this->Master_Model->get_data('admi_item', '*', ['item_id' => $item_id], '`item_id` ASC', 'row_array');
 
-		$process_type_list = $this->Master_Model->get_data('admi_process_type', '*', ['process_type_id' => $item_data['process_type_id']], '`process_type_id` ASC', 'result');
+		if ($_SESSION['admi_user_data']['role_id'] == 1) {
+			if(isset($item_data['process_type_id'])){
+				$process_type_list = $this->Master_Model->get_data('admi_process_type', '*', ['process_type_id' => $item_data['process_type_id']], '`process_type_id` ASC', 'result');
+				}else{
+				$process_type_list = $this->Master_Model->get_data('admi_process_type', '*', [], '`process_type_id` ASC', 'result');
+			}
+		} else {
+			// $process_type_listData = $this->Master_Model->get_data('user_process_type', 'process_type_id', ['user_id' => $_SESSION['admi_user_data']['user_id']], '`id` ASC', 'row_array');
+			// $process_type_ids = array_column($process_type_listData, 'process_type_id');
+			$process_type_listData = $this->Master_Model->get_data(
+				'user_process_type',
+				'process_type_id',
+				['user_id' => $_SESSION['admi_user_data']['user_id']],
+				'`id` ASC',
+				'result'
+			);
+
+			$process_type_ids = array_column($process_type_listData, 'process_type_id');
+
+			$this->db->where_in('process_type_id', $process_type_ids);
+			$process_type_list = $this->db->get('admi_process_type')->result();
+		}
+
+
 
 		echo "<option value='' >Select Process Type</option>";
 		foreach ($process_type_list as $list) {
+
 			// echo "<option value='".$list->process_type_id."' selected po_item_descr='".$item_data['item_descr']."' po_item_casting_drg_no='".$item_data['item_casting_drw_no']."'  > ".$list->process_type_name." </option>";
-			echo "<option value='" . $list->process_type_id . "' po_item_descr='" . $item_data['item_descr'] . "' po_item_casting_drg_no='" . $item_data['item_casting_drw_no'] . "' > " . $list->process_type_name . " </option>";
+			echo "<option value='" . $list->process_type_id . "' 
+      po_item_descr='" . ($item_data['item_descr'] ?? '') . "' 
+      po_item_casting_drg_no='" . ($item_data['item_casting_drw_no'] ?? '') . "'>
+      " . $list->process_type_name . "
+      </option>";
 		}
 	}
 

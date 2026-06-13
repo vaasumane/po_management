@@ -109,14 +109,11 @@
                           } ?>
                         </select>
                       </div>
-                      <div class="form-group col-md-4 offset-md-2">
-                        <label>PO Qty<span class="text-danger">*</span></label>
-                        <div class="input-group date" data-target-input="nearest">
-                          <input type="number" readonly class="form-control form-control-sm datetimepicker-input" name="po_qty" id="po_qty" value="<?php if (isset($dispatch_info)) {
+                   
+                          <input type="hidden" readonly class="form-control form-control-sm datetimepicker-input" name="po_qty" id="po_qty" value="<?php if (isset($dispatch_info)) {
                                                                                                                                                       echo $dispatch_info['dispatch_date'];
                                                                                                                                                     } ?>" data-target="#date1" data-toggle="datetimepicker" required>
-                        </div>
-                      </div>
+                       
 
 
                       <div class="form-group col-md-12">
@@ -146,6 +143,7 @@
                             <thead>
                               <tr>
                                 <th class="f-14 wtm_150">Dispatched Qty</th>
+                                <th class="f-14 wtm_150">PO Qty</th>
                                 <th class="f-14 wtm_150">Invoice No</th>
                                 <th class="f-14 wtm_100">Dispatch Date</th>
                                 <th class="f-14 wtm_100">Pending Qty</th>
@@ -164,6 +162,9 @@
                                       <input type="number" class="form-control form-control-sm dispatch_item_qty" onkeyup="dispatchQty(this)" name="input[<?php echo $i; ?>][dispatch_item_qty]" value="<?php echo $list->dispatch_item_qty; ?>" required>
                                     </td>
                                     <td class="wtm_100">
+                                      <input type="number" readonly class="form-control form-control-sm dispatch_item_poaty_no" name="input[<?php echo $i; ?>][dispatch_item_poaty_no]" value="" >
+                                    </td>
+                                     <td class="wtm_100">
                                       <input type="text" class="form-control form-control-sm dispatch_item_inv_no" name="input[<?php echo $i; ?>][dispatch_item_inv_no]" value="<?php echo $list->dispatch_item_inv_no; ?>" required>
                                     </td>
                                     <td class="wtm_100">
@@ -200,6 +201,9 @@
                                   <td class="wtm_100">
                                     <input type="number" class="form-control form-control-sm dispatch_item_qty" onkeyup="dispatchQty(this)" name="input[0][dispatch_item_qty]" required>
                                   </td>
+                                   <td class="wtm_100">
+                                      <input type="number" readonly class="form-control form-control-sm dispatch_item_poaty_no" name="input[0][dispatch_item_poaty_no]" value="" >
+                                    </td>
                                   <td class="wtm_100">
                                     <input type="text" class="form-control form-control-sm dispatch_item_inv_no" name="input[0][dispatch_item_inv_no]" required>
                                   </td>
@@ -405,6 +409,7 @@
     console.log(qtyValue);
 
     $('#po_qty').val(qtyValue);
+    $(".dispatch_item_poaty_no").val(qtyValue);
   });
 </script>
 
@@ -418,10 +423,14 @@
 
   $(document).on('click', '#add_row1', function() {
     i++;
+    let Poqty = $("#po_qty").val();
     var row = '' +
       '<tr>' +
       '<td class="wtm_100">' +
       '<input type="number" class="form-control form-control-sm dispatch_item_qty" onkeyup="dispatchQty(this)" name="input[' + i + '][dispatch_item_qty]" required>' +
+      '</td>' +
+       '<td class="wtm_100">' +
+      '<input type="number" readonly class="form-control form-control-sm dispatch_po_qty" onkeyup="dispatchQty(this)" name="input[' + i + '][dispatch_item_poaty_no]" required value="'+Poqty+'">' +
       '</td>' +
       '<td class="wtm_100">' +
       '<input type="text" class="form-control form-control-sm dispatch_item_inv_no" name="input[' + i + '][dispatch_item_inv_no]" required>' +

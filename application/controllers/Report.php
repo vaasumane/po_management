@@ -41,12 +41,20 @@ class Report extends CI_Controller{
 				$to_date = $_POST['to_date'];
 				$party_id = $_POST['party_id'];
 				$item_id = $_POST['item_id'];
-				// $grade_id = $_POST['grade_id'];
+				$department_id = $_POST['department_id'] ?? [];
+				$process_type_id = $_POST['process_type_id'] ?? [];
+				$grade_id = $_POST['grade_id'];
 				// $process_type_id = $_POST['process_type_id'];
 
 				$data['report'] = TRUE;
 
-				$process_type_list = $this->Master_Model->get_data('admi_process_type','*',['company_id'=>$admi_user_data['company_id']],'`process_type_id` DESC','result');
+				// $process_type_list = $this->Master_Model->get_data('admi_process_type','*',['company_id'=>$admi_user_data['company_id']],'`process_type_id` DESC','result');
+				if(empty($process_type_id)){
+					$process_type_list = $this->Master_Model->get_data('admi_process_type','*',['company_id'=>$admi_user_data['company_id']],'`process_type_id` DESC','result');
+				}else{
+					$this->db->where_in('process_type_id', $process_type_id);
+					$process_type_list = $this->db->get('admi_process_type')->result();
+				}
 				$i = 0;
 				foreach($process_type_list as $process_type_list1){
 					$process_type_id = $process_type_list1->process_type_id;
@@ -56,7 +64,7 @@ class Report extends CI_Controller{
 
 					$data['report_list'][$i]['process_type_id'] = $process_type_id;
 					$data['report_list'][$i]['process_type_name'] = $process_type_list1->process_type_name;
-					$data['report_list'][$i]['po_report_list'] = $this->Transaction_Model->get_po_report($from_date,$to_date,$party_id,$item_id,$process_type_id);
+					$data['report_list'][$i]['po_report_list'] = $this->Transaction_Model->get_po_report($from_date,$to_date,$party_id,$item_id,$process_type_id,$grade_id);
 					$i++;
 				}
 

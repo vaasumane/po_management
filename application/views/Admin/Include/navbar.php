@@ -231,8 +231,8 @@
 							<?php } ?>
 							<?php if($role_id == 1 || in_array("transaction_entry1", $role_access)){ ?>
 								<li class="nav-item">
-									<a href="<?php echo base_url(); ?>Transaction/transaction_entry" class="nav-link <?php if(isset($sub_menu) && $sub_menu == "Transaction Entry"){ echo 'active'; } ?>">
-										<i class="far fa-circle nav-icon"></i> <p>Transaction Entry</p>
+									<a href="<?php echo base_url(); ?>Transaction/transaction_entry" class="nav-link <?php if(isset($sub_menu) && $sub_menu == "Rejection Entry"){ echo 'active'; } ?>">
+										<i class="far fa-circle nav-icon"></i> <p>Rejection Entry</p>
 									</a>
 								</li> 
 							<?php } ?>

@@ -180,7 +180,7 @@
 																		<div class="form-group col-md-3 select_sm">	
 																			<?php $department_list = $this->Master_Model->get_data('admi_department','*',['process_type_id'=>$list->process_type_id],'`department_id` ASC','result'); ?>																	
 
-																			<label>Department<span class="text-danger">*</span></label>
+																			<label>Current Department<span class="text-danger">*</span></label>
 																			<select class="form-control select2 form-control-sm w-100 department_id" name="input[<?php echo $i; ?>][department_id]" data-placeholder="Select Department" required>
 																				<option value="">Select Department</option>
 																				<?php if(isset($department_list)){ foreach ($department_list as $department_list2) { ?>
@@ -199,7 +199,7 @@
 																			<input type="text" class="form-control form-control-sm job_item_ok_qty" name="input[<?php echo $i; ?>][job_item_ok_qty]" value="<?= $list->job_item_ok_qty; ?>" required>
 																		</div>
 																		<div class="form-group col-md-3 select_sm">
-																			<label>Department<span class="text-danger">*</span></label>
+																			<label>Next Department<span class="text-danger">*</span></label>
 																			<select class="form-control select2 form-control-sm w-100 ok_department_id" name="input[<?php echo $i; ?>][ok_department_id]" data-placeholder="Select Department" required>
 																				<option value="">Select Department</option>
 																				<?php if(isset($department_list)){ foreach ($department_list as $department_list2) { ?>
@@ -304,7 +304,7 @@
 																			</select>
 																		</div>
 																		<div class="form-group col-md-3 select_sm">
-																			<label>Department<span class="text-danger">*</span></label>
+																			<label>Currenct Department<span class="text-danger">*</span></label>
 																			<select class="form-control select2 form-control-sm w-100 department_id" name="input[0][department_id]" data-placeholder="Select Department" required>
 																				<option value="">Select Department</option>
 																				<?php if(isset($department_list)){ foreach ($department_list as $department_list2) { ?>
@@ -324,7 +324,7 @@
 																			<input type="text" class="form-control form-control-sm job_item_ok_qty" name="input[0][job_item_ok_qty]" required>
 																		</div>
 																		<div class="form-group col-md-3 select_sm">
-																			<label>Department<span class="text-danger">*</span></label>
+																			<label>Next Department<span class="text-danger">*</span></label>
 																			<select class="form-control select2 form-control-sm w-100 ok_department_id" name="input[0][ok_department_id]" data-placeholder="Select Department" required>
 																				<option value="">Select Department</option>
 																				<?php if(isset($department_list)){ foreach ($department_list as $department_list2) { ?>
@@ -804,7 +804,7 @@
 						'</select>'+
 					'</div>'+
 					'<div class="form-group col-md-3 select_sm">'+
-						'<label>Department<span class="text-danger">*</span></label>'+
+						'<label>Current Department<span class="text-danger">*</span></label>'+
 						'<select class="form-control select2 form-control-sm w-100 department_id" name="input['+i+'][department_id]" data-placeholder="Select Department" required>'+
 							'<option value="">Select Department</option>'+
 							'<?php if(isset($department_list)){ foreach ($department_list as $department_list2) { ?>'+
@@ -822,7 +822,7 @@
 						'<input type="text" class="form-control form-control-sm job_item_ok_qty" name="input['+i+'][job_item_ok_qty]" required>'+
 					'</div>'+
 					'<div class="form-group col-md-3 select_sm">'+
-						'<label>Department<span class="text-danger">*</span></label>'+
+						'<label>Next Department<span class="text-danger">*</span></label>'+
 						'<select class="form-control select2 form-control-sm w-100 ok_department_id" name="input['+i+'][ok_department_id]" data-placeholder="Select Department" required>'+
 							'<option value="">Select Department</option>'+
 							'<?php if(isset($department_list)){ foreach ($department_list as $department_list2) { ?>'+
