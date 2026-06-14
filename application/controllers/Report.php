@@ -55,6 +55,10 @@ class Report extends CI_Controller{
 					$this->db->where_in('process_type_id', $process_type_id);
 					$process_type_list = $this->db->get('admi_process_type')->result();
 				}
+				if(!empty($department_id)){
+					$this->db->where_in('process_type_id', $department_id);
+					$process_type_list = $this->db->get('admi_process_type')->result();
+				}
 				$i = 0;
 				foreach($process_type_list as $process_type_list1){
 					$process_type_id = $process_type_list1->process_type_id;

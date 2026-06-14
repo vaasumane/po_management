@@ -3010,6 +3010,18 @@ class Master extends CI_Controller
 			echo "<option value='" . $list->department_id . "' > " . $list->department_name . " </option>";
 		}
 	}
+	public function get_department_list()
+	{
+		$this->db->select('*');
+		$this->db->from('admi_department');
+		$this->db->order_by('department_name', 'ASC');
+		$department_list = $this->db->get()->result();
+
+		// echo "<option value='' selected >Select Main Category</option>";
+		foreach ($department_list as $list) {
+			echo "<option value='" . $list->process_type_id . "' > " . $list->department_name . " </option>";
+		}
+	}
 
 	// get_department_by_process_type_user
 	public function get_department_by_process_type_user()
@@ -3050,11 +3062,11 @@ class Master extends CI_Controller
 
 		// print_r($admi_user_data);
 
-		if ($admi_user_data['role_id'] == '1') {
+		// if ($admi_user_data['role_id'] == '1') {
 			$item_list = $this->Master_Model->get_data('admi_item', '*', ['party_id' => $party_id], '`item_id` ASC', 'result');
-		} else {
-			$item_list = $this->Master_Model->get_data('admi_item', '*', ['party_id' => $party_id, 'process_type_id' => $admi_user_data['process_type_id']], '`item_id` ASC', 'result');
-		}
+		// } else {
+		// 	$item_list = $this->Master_Model->get_data('admi_item', '*', ['party_id' => $party_id, 'process_type_id' => $admi_user_data['process_type_id']], '`item_id` ASC', 'result');
+		// }
 
 		echo "<option value='' selected >Select Drawing No</option>";
 		foreach ($item_list as $list) {

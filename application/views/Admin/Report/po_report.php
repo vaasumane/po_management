@@ -111,14 +111,14 @@
 													} ?>
 												</select>
 											</div>
-											<!-- <div class="form-group col-md-3 select_sm">
+											<div class="form-group col-md-3 select_sm">
 
 												<label> Department</label>
 												<select class="form-control select2 form-control-sm w-100 department_id" multiple id="department_id" name="department_id[]" data-placeholder="Select Department" >
 													<option value="">Select Department</option>
 
 												</select>
-											</div> -->
+											</div>
 
 										</div>
 										<div class="card-footer clearfix" style="display: block;">
@@ -313,28 +313,22 @@
 			},
 			context: this,
 			success: function(result) {
+		departList();
+
 				$('#process_type_id').html(result);
 			}
 		});
+		
 	});
-	// $(document).on("change", "#process_type_id", function() {
-	// 	console.log("lkjhg");
-
-	// 	var process_type_id = $(this).find("option:selected").val();
-	// 	var this_row = $(this);
-	// 	$.ajax({
-	// 		url: '<?php echo base_url(); ?>Master/get_department_by_process_type',
-	// 		type: 'POST',
-	// 		data: {
-	// 			"process_type_id": process_type_id
-	// 		},
-	// 		context: this,
-	// 		success: function(result) {
-	// 			// $(this).closest('tr').find('.department_id').html(result);
-	// 			$('#department_id').html(result);
-	// 			// $('#item_id').html(result);
-	// 		}
-	// 	});
-	// 	// department_by_process(process_type_id, this_row);
-	// });
+	function departList(){
+		$.ajax({
+			url: '<?php echo base_url(); ?>Master/get_department_list',
+			type: 'POST',
+			// data: ,
+			context: this,
+			success: function(result) {
+				$('#department_id').html(result);
+			}
+		});
+	}
 </script>
