@@ -382,7 +382,7 @@
                       <div class="row">
 												<div class="col-md-12">
                           <div class="form-group select_sm">
-                            <label class="">Remark</label>
+                            <label class="">Remark<span class="text-danger">*</span></label>
 
 														<!-- <select class="form-control select2 form-control-sm" multiple name="product_id[]" id="product_id[]" data-placeholder="Select Product" required>
 															<option value="">Select Product</option>
@@ -399,7 +399,7 @@
 														</select> -->
 
 
-                            <select class="form-control select2" multiple name="remark_id[]" id="remark_id[]" data-placeholder="Select Remark" >
+                            <select class="form-control select2" multiple required name="remark_id[]" id="remark_id[]" data-placeholder="Select Remark" >
 															<option value="">Select Remark</option>
 															<?php if(isset($remark_list)){ foreach ($remark_list as $list) { ?>
 																<option value="<?php echo $list->remark_id; ?>"
@@ -713,7 +713,7 @@
   });
 
 
-	$(document).on("change",".job_item_ok_qty, .job_item_reject_qty, .job_item_rework_qty", function(){
+	$(document).on("keyup",".job_item_ok_qty, .job_item_reject_qty, .job_item_rework_qty", function(){
 		var job_item_total_qty = $(this).closest('tr').find('.job_item_total_qty').val();
 		if(job_item_total_qty == ''){ var job_item_total_qty = 0; }
 		var job_item_total_qty = parseFloat(job_item_total_qty);
@@ -730,7 +730,9 @@
 		if(job_item_rework_qty == ''){ var job_item_rework_qty = 0; }
 		var job_item_rework_qty = parseFloat(job_item_rework_qty);
 
-		var job_item_pending_qty = job_item_total_qty - (job_item_ok_qty + job_item_reject_qty + job_item_rework_qty);		
+		// var job_item_pending_qty = job_item_total_qty - (job_item_ok_qty + job_item_reject_qty + job_item_rework_qty);		
+		var job_item_pending_qty = job_item_total_qty - (job_item_ok_qty);		
+console.log(job_item_pending_qty);
 
 		if(job_item_pending_qty < 0){
 			toastr.error('Invalid Quantity Entered');

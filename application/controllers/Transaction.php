@@ -617,6 +617,7 @@ class Transaction extends CI_Controller
 
 			$dispatch_id = $this->Master_Model->save_data('admi_dispatch', $save_data);
 			
+			($dispatch_id);
 			if ($dispatch_id) {
 				foreach ($_POST['input'] as $multi_data) {
 					$multi_data['dispatch_id'] = $dispatch_id;
@@ -627,7 +628,9 @@ class Transaction extends CI_Controller
 					$multi_data['company_id'] = $admi_user_data['company_id'];
 					$multi_data['dispatch_item_addedby'] = $admi_user_data['user_id'];
 					$multi_data['dispatch_item_created_at'] = date('Y-m-d H:i:s');
+					unset($multi_data['dispatch_item_poaty_no']);
 					$this->db->insert('admi_dispatch_item', $multi_data);
+				
 				}
 
 				$this->_set_flashdata_and_redirect('Transaction/dispatch', 'Dispatch Entry Saved Successfully', 'success');
@@ -726,6 +729,8 @@ class Transaction extends CI_Controller
 		$data['remark_list'] = $this->Master_Model->get_data('admi_remark', '*', ['company_id' => $admi_user_data['company_id']], '`remark_name` ASC', 'result');
 
 		$data['dispatch_item_list'] = $this->Master_Model->get_data('admi_dispatch_item', '*', ['company_id' => $admi_user_data['company_id'], 'dispatch_id' => $dispatch_id], '`dispatch_item_id` ASC', 'result');
+		
+		
 		$data['dispatch_list'] = $this->Master_Model->get_data('admi_dispatch', '*', ['company_id' => $admi_user_data['company_id']], '`dispatch_id` DESC', 'result');
 		$data['main_menu'] = "Transaction";
 		$data['sub_menu'] = "Dispatch Entry";

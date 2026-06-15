@@ -99,7 +99,7 @@
                           <option value="">Select PO No</option>
                           <?php if (isset($purchase_order_list)) {
                             foreach ($purchase_order_list as $list) { ?>
-                              <option value="<?php echo $list->purchase_order_id; ?>" <?php if (isset($dispatch_info) && $dispatch_info['purchase_order_id'] == $list->purchase_order_id) {
+                              <option data-qty="<?php echo $list->po_item_add_qty;  ?>" value="<?php echo $list->purchase_order_id; ?>" <?php if (isset($dispatch_info) && $dispatch_info['purchase_order_id'] == $list->purchase_order_id) {
                                                                                         echo 'selected';
                                                                                       }
                                                                                       if ($list->purchase_order_status == '0') {
@@ -370,6 +370,9 @@
 </html>
 
 <script>
+  $(document).ready(function(){
+updatePoQty();
+  });
   // get_item_list_by_party...
   $("#party_id").on("change", function() {
     var party_id = $('#party_id').find("option:selected").val();
@@ -480,7 +483,12 @@
     $(this).closest('tr').remove();
     final_calculation();
   });
+function updatePoQty() {
+    var qtyValue = $('#purchase_order_id option:selected').data('qty') || 0;
 
+    $('#po_qty').val(qtyValue);
+    $('.dispatch_item_poaty_no').val(qtyValue);
+}
   function dispatchQty(element) {
     var poQty = parseFloat($("#po_qty").val()) || 0;
     var currentQty = parseFloat($(element).val()) || 0;
