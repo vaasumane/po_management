@@ -101,7 +101,7 @@
                             <th class="f-14 wtm_100">Due Date</th>
                             <th class="f-14 ">Casting DRG No</th>
                             <th class="f-14 ">PO Qty</th>
-                            <th class="f-14 ">Add Qty</th>
+                            <!-- <th class="f-14 ">Add Qty</th> -->
                             <th class="f-14 wt_50"></th>
                           </tr>
                           </thead>
@@ -155,9 +155,9 @@
                                 <td class="">
                                   <input type="number" min="1" step="0.01" class="form-control form-control-sm po_item_qty" name="input[<?php echo $i; ?>][po_item_qty]"  value="<?= $list->po_item_qty; ?>" required>
                                 </td>
-                                <td class="">
+                                <!-- <td class="">
                                   <input type="number" min="1" step="0.01" class="form-control form-control-sm po_item_add_qty" name="input[<?php echo $i; ?>][po_item_add_qty]" value="<?= $list->po_item_add_qty; ?>" required>
-                                </td>
+                                </td> -->
                                 <td class="wt_50">
                                   <?php if($i > 0){ ?><a class="rem_row"><i class="fa fa-trash text-danger"></i></a><?php } ?>
                                 </td>
@@ -205,9 +205,9 @@
                                 <td class="">
                                   <input type="number" min="1" step="0.01" class="form-control form-control-sm po_item_qty" name="input[0][po_item_qty]" required>
                                 </td>
-                                <td class="">
+                                <!-- <td class="">
                                   <input type="number" min="1" step="0.01" class="form-control form-control-sm po_item_add_qty" name="input[0][po_item_add_qty]" required>
-                                </td>
+                                </td> -->
                                 <td class="wt_50"></td>
                               </tr>
                             <?php } ?>
@@ -434,9 +434,9 @@
 			'<td class="">'+
 				'<input type="number" min="1" step="0.01" class="form-control form-control-sm po_item_qty" name="input['+i+'][po_item_qty]" required>'+
 			'</td>'+
-			'<td class="">'+
-				'<input type="number" min="1" step="0.01" class="form-control form-control-sm po_item_add_qty" name="input['+i+'][po_item_add_qty]" required>'+
-			'</td>'+
+			// '<td class="">'+
+			// 	'<input type="number" min="1" step="0.01" class="form-control form-control-sm po_item_add_qty" name="input['+i+'][po_item_add_qty]" required>'+
+			// '</td>'+
       '<td class="wt_50"><a class="rem_row"><i class="fa fa-trash text-danger"></i></a></td>'+
     '</tr>';
     $('#myTable1').append(row);

@@ -241,6 +241,9 @@
 																		}
 
 																		$tot_balance_qty = $tot_added_qty - $tot_used_qty;
+																		if($tot_balance_qty < 0){
+																			$tot_balance_qty = 0;
+																		}
 																	?>
 																		<td class="wt_100"><?= $tot_balance_qty; ?></td>
 																	<?php	} ?>

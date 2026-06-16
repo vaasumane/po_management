@@ -3167,7 +3167,7 @@ class Master extends CI_Controller
 
 			$purchase_order_data = $this->Master_Model->get_data('admi_purchase_order', 'purchase_order_no', ['purchase_order_id' => $purchase_order_id], '`purchase_order_id` ASC', 'row_array');
 
-			echo "<option value='" . $list->purchase_order_id . "' data-qty='" . $list->po_item_add_qty . "'> " . $purchase_order_data['purchase_order_no'] . " </option>";
+			echo "<option value='" . $list->purchase_order_id . "' data-qty='" . $list->po_item_qty . "'> " . $purchase_order_data['purchase_order_no'] . " </option>";
 		}
 	}
 

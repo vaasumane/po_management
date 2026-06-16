@@ -99,7 +99,7 @@
                           <option value="">Select PO No</option>
                           <?php if (isset($purchase_order_list)) {
                             foreach ($purchase_order_list as $list) { ?>
-                              <option data-qty="<?php echo $list->po_item_add_qty;  ?>" value="<?php echo $list->purchase_order_id; ?>" <?php if (isset($dispatch_info) && $dispatch_info['purchase_order_id'] == $list->purchase_order_id) {
+                              <option data-qty="<?php echo $list->po_item_qty;  ?>" value="<?php echo $list->purchase_order_id; ?>" <?php if (isset($dispatch_info) && $dispatch_info['purchase_order_id'] == $list->purchase_order_id) {
                                                                                         echo 'selected';
                                                                                       }
                                                                                       if ($list->purchase_order_status == '0') {

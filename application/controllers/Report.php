@@ -29,7 +29,7 @@ class Report extends CI_Controller{
 		public function po_report(){
 			$admi_user_data = $this->session->userdata('admi_user_data');
 			$admi_role_access = $this->session->userdata('admi_role_access');
-			if(empty($admi_user_data) || ( $admi_user_data['role_id'] != 1 && !in_array("dispatch1", $admi_role_access))){ header('location:'.base_url().'User'); }
+			// if(empty($admi_user_data) || ( $admi_user_data['role_id'] != 1 && !in_array("dispatch1", $admi_role_access))){ header('location:'.base_url().'User'); }
 			$data['role_access'] = $admi_role_access;
 			$data['sess_user_data'] = $admi_user_data;
 			$data['role_id'] = $admi_user_data['role_id'];

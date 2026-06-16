@@ -95,13 +95,13 @@
 										</a>
 								</li>
 							<?php } ?>
-							<!-- <?php if($role_id == 1 || in_array("role1", $role_access)){ ?>
+							 <?php if($role_id == 1 || in_array("role1", $role_access)){ ?>
 								<li class="nav-item">
 										<a <?php if(isset($update_role)){ echo 'href="'.$act_link.'"'; } else{ ?> href="<?php echo base_url(); ?>Company/role" <?php } ?> class="nav-link <?php if(isset($sub_menu) && $sub_menu == "Role"){ echo 'active'; } ?>">
 												<i class="far fa-circle nav-icon"></i> <p>Role</p>
 										</a>
 								</li>
-							<?php } ?> -->
+							<?php } ?> 
 						</ul>
 					</li>
 				<?php } ?>
@@ -240,14 +240,14 @@
 					</li>
 				<?php } ?>
 
-				<?php if($role_id == 1 || in_array("report", $role_access)){ ?>				
+				<?php //if($role_id == 1 || in_array("report", $role_access)){ ?>				
 					<li class="nav-item">
 						<a href="<?php echo base_url(); ?>Report/po_report" class="nav-link head <?php if(isset($main_menu) && $main_menu == "Report"){ echo 'active'; } ?>">
 							<i class="nav-icon fas fa-file"></i>
 							<p>Report</p>
 						</a>
 					</li>
-				<?php } ?>
+				<?php //} ?>
 
 
 

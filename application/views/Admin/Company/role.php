@@ -108,6 +108,245 @@
                             <input type="checkbox" class="delete" menu="company_menu" name="role_access[]" value="role4" <?php if(isset($role_info) && in_array("role4", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Delete
                           </td>
                         </tr>
+                       
+                      </table>
+                      
+                      <table class="table table-bordered  mb-3">
+                        <tr>
+                          <td colspan="5">
+                            <input type="checkbox" id="master_menu" name="role_access[]" value="master" <?php if(isset($role_info) && in_array("master", $up_role_access)){ echo ' checked'; } ?> > &nbsp;<label class="f-16">Master Menu</label>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="wt_200" ><label>Unit</label></td>
+                          <td>
+                            <input type="checkbox" class="read" menu="master_menu" name="role_access[]" value="unit1" <?php if(isset($role_info) && in_array("unit1", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Read
+                          </td>
+                          <td>
+                            <input type="checkbox" class="read" menu="master_menu" name="role_access[]" value="unit2" <?php if(isset($role_info) && in_array("unit2", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Create
+                          </td>
+                          <td>
+                            <input type="checkbox" class="update" menu="master_menu" name="role_access[]" value="unit3" <?php if(isset($role_info) && in_array("unit3", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Update
+                          </td>
+                          <td colspan="3">
+                            <input type="checkbox" class="update" menu="master_menu" name="role_access[]" value="unit4" <?php if(isset($role_info) && in_array("unit4", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Delete
+                          </td>
+                        </tr>
+                        <tr>
+                          <td><label>Tax Rate</label></td>
+                          <td>
+                            <input type="checkbox" class="read" menu="master_menu" name="role_access[]" value="tax_rate1" <?php if(isset($role_info) && in_array("tax_rate1", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Read
+                          </td>
+                          <td>
+                            <input type="checkbox" class="create" menu="master_menu" name="role_access[]" value="tax_rate2" <?php if(isset($role_info) && in_array("tax_rate2", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Create
+                          </td>
+                          <td>
+                            <input type="checkbox" class="update" menu="company_menu" name="role_access[]" value="tax_rate3" <?php if(isset($role_info) && in_array("tax_rate3", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Update
+                          </td>
+                          <td>
+                            <input type="checkbox" class="delete" menu="master_menu" name="role_access[]" value="tax_rate4" <?php if(isset($role_info) && in_array("tax_rate4", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Delete
+                          </td>
+                        </tr>
+                        <tr>
+                          <td><label>Party</label></td>
+                          <td>
+                            <input type="checkbox" class="read" menu="master_menu" name="role_access[]" value="party1" <?php if(isset($role_info) && in_array("party1", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Read
+                          </td>
+                          <td>
+                            <input type="checkbox" class="create" menu="master_menu" name="role_access[]" value="party2" <?php if(isset($role_info) && in_array("party2", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Create
+                          </td>
+                          <td>
+                            <input type="checkbox" class="update" menu="master_menu" name="role_access[]" value="party3" <?php if(isset($role_info) && in_array("party3", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Update
+                          </td>
+                          <td>
+                            <input type="checkbox" class="delete" menu="master_menu" name="role_access[]" value="party4" <?php if(isset($role_info) && in_array("party4", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Delete
+                          </td>
+                        </tr>
+                        
+                        <tr>
+                          <td><label>Remark</label></td>
+                          <td>
+                            <input type="checkbox" class="read" menu="master_menu" name="role_access[]" value="remark1" <?php if(isset($role_info) && in_array("remark1", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Read
+                          </td>
+                          <td>
+                            <input type="checkbox" class="create" menu="master_menu" name="role_access[]" value="remark2" <?php if(isset($role_info) && in_array("remark2", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Create
+                          </td>
+                          <td>
+                            <input type="checkbox" class="update" menu="master_menu" name="role_access[]" value="remark3" <?php if(isset($role_info) && in_array("remark3", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Update
+                          </td>
+                          <td>
+                            <input type="checkbox" class="delete" menu="master_menu" name="role_access[]" value="remark4" <?php if(isset($role_info) && in_array("remark4", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Delete
+                          </td>
+                        </tr>
+                        
+                        <tr>
+                          <td><label>Grade</label></td>
+                          <td>
+                            <input type="checkbox" class="read" menu="master_menu" name="role_access[]" value="grade1" <?php if(isset($role_info) && in_array("grade1", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Read
+                          </td>
+                          <td>
+                            <input type="checkbox" class="create" menu="master_menu" name="role_access[]" value="grade2" <?php if(isset($role_info) && in_array("grade2", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Create
+                          </td>
+                          <td>
+                            <input type="checkbox" class="update" menu="master_menu" name="role_access[]" value="grade3" <?php if(isset($role_info) && in_array("grade3", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Update
+                          </td>
+                          <td>
+                            <input type="checkbox" class="delete" menu="master_menu" name="role_access[]" value="grade4" <?php if(isset($role_info) && in_array("grade4", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Delete
+                          </td>
+                        </tr>
+                        
+                        <tr>
+                            <td><label>Process Type</label></td>
+                            <td>
+                                <input type="checkbox" class="read" menu="master_menu" name="role_access[]" value="process_type1" <?php if(isset($role_info) && in_array("process_type1", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Read
+                            </td>
+                            <td>
+                                <input type="checkbox" class="create" menu="master_menu" name="role_access[]" value="process_type2" <?php if(isset($role_info) && in_array("process_type2", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Create
+                            </td>
+                            <td>
+                                <input type="checkbox" class="update" menu="master_menu" name="role_access[]" value="process_type3" <?php if(isset($role_info) && in_array("process_type3", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Update
+                            </td>
+                            <td>
+                                <input type="checkbox" class="delete" menu="master_menu" name="role_access[]" value="process_type4" <?php if(isset($role_info) && in_array("process_type4", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Delete
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td><label>Item Group</label></td>
+                            <td>
+                                <input type="checkbox" class="read" menu="master_menu" name="role_access[]" value="item_group1" <?php if(isset($role_info) && in_array("item_group1", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Read
+                            </td>
+                            <td>
+                                <input type="checkbox" class="create" menu="master_menu" name="role_access[]" value="item_group2" <?php if(isset($role_info) && in_array("itemgroup2", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Create
+                            </td>
+                            <td>
+                                <input type="checkbox" class="update" menu="master_menu" name="role_access[]" value="item_group3" <?php if(isset($role_info) && in_array("item_group3", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Update
+                            </td>
+                            <td>
+                                <input type="checkbox" class="delete" menu="master_menu" name="role_access[]" value="item_group4" <?php if(isset($role_info) && in_array("item_group4", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Delete
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td><label>Department</label></td>
+                            <td>
+                                <input type="checkbox" class="read" menu="master_menu" name="role_access[]" value="department1" <?php if(isset($role_info) && in_array("department1", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Read
+                            </td>
+                            <td>
+                                <input type="checkbox" class="create" menu="master_menu" name="role_access[]" value="department2" <?php if(isset($role_info) && in_array("department2", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Create
+                            </td>
+                            <td>
+                                <input type="checkbox" class="update" menu="master_menu" name="role_access[]" value="department3" <?php if(isset($role_info) && in_array("department3", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Update
+                            </td>
+                            <td>
+                                <input type="checkbox" class="delete" menu="master_menu" name="role_access[]" value="department4" <?php if(isset($role_info) && in_array("department4", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Delete
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td><label>Process</label></td>
+                            <td>
+                                <input type="checkbox" class="read" menu="master_menu" name="role_access[]" value="process1" <?php if(isset($role_info) && in_array("process1", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Read
+                            </td>
+                            <td>
+                                <input type="checkbox" class="create" menu="master_menu" name="role_access[]" value="process2" <?php if(isset($role_info) && in_array("process2", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Create
+                            </td>
+                            <td>
+                                <input type="checkbox" class="update" menu="master_menu" name="role_access[]" value="process3" <?php if(isset($role_info) && in_array("process3", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Update
+                            </td>
+                            <td>
+                                <input type="checkbox" class="delete" menu="master_menu" name="role_access[]" value="process4" <?php if(isset($role_info) && in_array("process4", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Delete
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td><label>Item</label></td>
+                            <td>
+                                <input type="checkbox" class="read" menu="master_menu" name="role_access[]" value="item1" <?php if(isset($role_info) && in_array("item1", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Read
+                            </td>
+                            <td>
+                                <input type="checkbox" class="create" menu="master_menu" name="role_access[]" value="item2" <?php if(isset($role_info) && in_array("item2", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Create
+                            </td>
+                            <td>
+                                <input type="checkbox" class="update" menu="master_menu" name="role_access[]" value="item3" <?php if(isset($role_info) && in_array("item3", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Update
+                            </td>
+                            <td>
+                                <input type="checkbox" class="delete" menu="master_menu" name="role_access[]" value="item4" <?php if(isset($role_info) && in_array("item4", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Delete
+                            </td>
+                        </tr>
+                       
+                      </table>
+                      
+                      
+                      <table class="table table-bordered  mb-3">
+                        <tr>
+                          <td colspan="5">
+                            <input type="checkbox" id="transaction_menu" name="role_access[]" value="transaction" <?php if(isset($role_info) && in_array("transaction", $up_role_access)){ echo ' checked'; } ?> > &nbsp;<label class="f-16">Transaction Menu</label>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="wt_200" ><label>Purchase Order</label></td>
+                          <td>
+                            <input type="checkbox" class="read" menu="transaction_menu" name="role_access[]" value="purchase_order1" <?php if(isset($role_info) && in_array("purchase_order1", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Read
+                          </td>
+                          <td>
+                            <input type="checkbox" class="read" menu="transaction_menu" name="role_access[]" value="purchase_order2" <?php if(isset($role_info) && in_array("purchase_order2", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Create
+                          </td>
+                          <td>
+                            <input type="checkbox" class="update" menu="transaction_menu" name="role_access[]" value="purchase_order3" <?php if(isset($role_info) && in_array("purchase_order3", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Update
+                          </td>
+                          <td colspan="3">
+                            <input type="checkbox" class="update" menu="transaction_menu" name="role_access[]" value="purchase_order4" <?php if(isset($role_info) && in_array("purchase_order4", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Delete
+                          </td>
+                        </tr>
+                        <tr>
+                            <td class="wt_200"><label>Job Process</label></td>
+                            <td>
+                                <input type="checkbox" class="read" menu="transaction_menu" name="role_access[]" value="job_process1" <?php if(isset($role_info) && in_array("job_process1", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Read
+                            </td>
+                            <td>
+                                <input type="checkbox" class="create" menu="transaction_menu" name="role_access[]" value="job_process2" <?php if(isset($role_info) && in_array("job_process2", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Create
+                            </td>
+                            <td>
+                                <input type="checkbox" class="update" menu="transaction_menu" name="role_access[]" value="job_process3" <?php if(isset($role_info) && in_array("job_process3", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Update
+                            </td>
+                            <td colspan="3">
+                                <input type="checkbox" class="delete" menu="transaction_menu" name="role_access[]" value="job_process4" <?php if(isset($role_info) && in_array("job_process4", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Delete
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="wt_200"><label>Dispatch Entry</label></td>
+                            <td>
+                                <input type="checkbox" class="read" menu="transaction_menu" name="role_access[]" value="dispatch1" <?php if(isset($role_info) && in_array("dispatch1", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Read
+                            </td>
+                            <td>
+                                <input type="checkbox" class="create" menu="transaction_menu" name="role_access[]" value="dispatch2" <?php if(isset($role_info) && in_array("dispatch2", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Create
+                            </td>
+                            <td>
+                                <input type="checkbox" class="update" menu="transaction_menu" name="role_access[]" value="dispatch3" <?php if(isset($role_info) && in_array("dispatch3", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Update
+                            </td>
+                            <td colspan="3">
+                                <input type="checkbox" class="delete" menu="transaction_menu" name="role_access[]" value="dispatch4" <?php if(isset($role_info) && in_array("dispatch4", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Delete
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="wt_200"><label>Rejection Entry</label></td>
+                            <td>
+                                <input type="checkbox" class="read" menu="transaction_menu" name="role_access[]" value="transaction_entry1" <?php if(isset($role_info) && in_array("transaction_entry1", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Read
+                            </td>
+                            <td>
+                                <input type="checkbox" class="create" menu="transaction_menu" name="role_access[]" value="transaction_entry2" <?php if(isset($role_info) && in_array("transaction_entry2", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Create
+                            </td>
+                            <td>
+                                <input type="checkbox" class="update" menu="transaction_menu" name="role_access[]" value="transaction_entry3" <?php if(isset($role_info) && in_array("transaction_entry3", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Update
+                            </td>
+                            <td colspan="3">
+                                <input type="checkbox" class="delete" menu="transaction_menu" name="role_access[]" value="transaction_entry4" <?php if(isset($role_info) && in_array("transaction_entry4", $up_role_access)){ echo ' checked'; } ?>> &nbsp;Delete
+                            </td>
+                        </tr>
+                       
                       </table>
 
                     </div>
@@ -288,6 +527,15 @@
       $("input[menu='product_menu']").prop('checked',false);
     }
   });
+  
+    // Transaction Menu
+  $(document).on('change', '#transaction_menu', function(){
+    if(this.checked == true) {
+      $("input[menu='transaction_menu']").prop('checked',true);
+    } else{
+      $("input[menu='transaction_menu']").prop('checked',false);
+    }
+  });
 	
 
 // If No any sub menu checked then uncheck Mani Menu.
@@ -346,6 +594,24 @@
 		}
 	});
 
-transaction_menu
+// transaction_menu
+
+	$(document).on('change', "input[menu='transaction_menu']", function(){
+		var check = 0;
+		var uncheck = 0;
+		$("input[menu='transaction_menu']").each(function(){
+			if(this.checked == true){
+				check++;
+			} else{
+				uncheck++;
+			}
+		});
+
+		if(check == 0){
+			$("#transaction_menu").prop('checked',false);
+		} else{
+			$("#transaction_menu").prop('checked',true);
+		}
+	});
 
 </script>

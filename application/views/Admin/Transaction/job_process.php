@@ -189,8 +189,8 @@
 																			</select>
 																		</div>
 																		<div class="form-group col-md-3">
-																			<label>Total Qty<span class="text-danger">*</span></label>
-																			<input type="text" class="form-control form-control-sm job_item_total_qty" name="input[<?php echo $i; ?>][job_item_total_qty]" value="<?= $list->job_item_total_qty; ?>" readonly required>
+																			<!-- <label>Total Qty<span class="text-danger">*</span></label>
+																			<input type="text" class="form-control form-control-sm job_item_total_qty" name="input[<?php echo $i; ?>][job_item_total_qty]" value="<?= $list->job_item_total_qty; ?>" readonly required> -->
 																		</div>
 																		<div class="form-group col-md-3"></div>
 
@@ -313,8 +313,8 @@
 																			</select>
 																		</div>
 																		<div class="form-group col-md-3">
-																			<label>Total Qty<span class="text-danger">*</span></label>
-																			<input type="text" class="form-control form-control-sm job_item_total_qty" name="input[0][job_item_total_qty]" readonly required>
+																			<!-- <label>Total Qty<span class="text-danger">*</span></label>
+																			<input type="text" class="form-control form-control-sm job_item_total_qty" name="input[0][job_item_total_qty]" readonly required> -->
 																		</div>
 																		<div class="form-group col-md-3"></div>
 
@@ -714,7 +714,10 @@
 
 
 	$(document).on("keyup",".job_item_ok_qty, .job_item_reject_qty, .job_item_rework_qty", function(){
-		var job_item_total_qty = $(this).closest('tr').find('.job_item_total_qty').val();
+		// var job_item_total_qty = $(this).closest('tr').find('.job_item_total_qty').val();
+		// if(job_item_total_qty == ''){ var job_item_total_qty = 0; }
+		// var job_item_total_qty = parseFloat(job_item_total_qty);
+		var job_item_total_qty = $(this).closest('tr').find('.job_item_po_qty').val();
 		if(job_item_total_qty == ''){ var job_item_total_qty = 0; }
 		var job_item_total_qty = parseFloat(job_item_total_qty);
 
@@ -815,8 +818,8 @@ console.log(job_item_pending_qty);
 						'</select>'+
 					'</div>'+
 					'<div class="form-group col-md-3">'+
-						'<label>Total Qty<span class="text-danger">*</span></label>'+
-						'<input type="text" class="form-control form-control-sm job_item_total_qty" name="input['+i+'][job_item_total_qty]" readonly required>'+
+						// '<label>Total Qty<span class="text-danger">*</span></label>'+
+						// '<input type="text" class="form-control form-control-sm job_item_total_qty" name="input['+i+'][job_item_total_qty]" readonly required>'+
 					'</div>'+
 					
 																		'<div class="form-group col-md-3"></div><div class="form-group col-md-3 ">'+
