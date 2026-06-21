@@ -100,7 +100,7 @@
 											</div>
 											<div class="form-group col-md-3 select_sm">
 												<label>Process Type</label>
-												<select class="form-control select2" name="process_type_id[]" multiple id="process_type_id" data-placeholder="Select Process Type" >
+												<select class="form-control select2" name="process_type_id[]" multiple id="process_type_id" data-placeholder="Select Process Type">
 													<option value="">Select Process Type</option>
 													<?php if (isset($process_type_list)) {
 														foreach ($process_type_list as $list) { ?>
@@ -114,7 +114,7 @@
 											<div class="form-group col-md-3 select_sm">
 
 												<label> Department</label>
-												<select class="form-control select2 form-control-sm w-100 department_id" multiple id="department_id" name="department_id[]" data-placeholder="Select Department" >
+												<select class="form-control select2 form-control-sm w-100 department_id" multiple id="department_id" name="department_id[]" data-placeholder="Select Department">
 													<option value="">Select Department</option>
 
 												</select>
@@ -173,6 +173,7 @@
 																<th class="wt_100">PO Qty</th>
 																<th class="wt_100">Disp Qty</th>
 																<th class="wt_100">Pen. Qty</th>
+																<th class="wt_100">Rej. Qty</th>
 
 																<?php
 																$department_list = $this->Master_Model->get_data('admi_department', 'department_id,department_name', ['process_type_id' => $process_type_id], '`department_id` ASC', 'result');
@@ -199,9 +200,30 @@
 																	$dispatch_qty = $dispatch_qty_info['dispatch_qty'];
 																}
 
+																$rejected_qty = 0;
+
+
+																$reject = $this->db
+																	->select_sum('admi_job_item.job_item_reject_qty')
+																	->from('admi_job_item')
+																	->join(
+																		'admi_job_process',
+																		'admi_job_process.job_process_id = admi_job_item.job_process_id',
+																		'inner'
+																	)
+																	->where('admi_job_item.po_item_id', $po_item_id)
+																	->where('admi_job_process.tran_type', '2')
+																	->get()
+																	->row_array();
+
+
+																if ($reject) {
+																	$rejected_qty = $reject['job_item_reject_qty'] ?? 0;
+																}
+
 																$job_item_id = 0;
 																$job_item_info = $this->Master_Model->get_data('admi_job_item', '*', ['po_item_id' => $po_item_id, 'item_id' => $item_id, 'party_id' => $party_id], '`po_item_id` ASC', 'row_array');
-																
+
 																if ($job_item_info) {
 																	$job_item_id = $job_item_info['job_item_id'];
 																}
@@ -220,18 +242,22 @@
 																	<td><?php echo $list->po_item_qty; ?></td>
 																	<td><?php echo $dispatch_qty; ?></td>
 																	<td><?php echo $list->po_item_qty - $dispatch_qty; ?></td>
+																	<td><?php echo $rejected_qty; ?></td>
 																	<?php
 																	$department_list = $this->Master_Model->get_data('admi_department', 'department_id,department_name', ['process_type_id' => $process_type_id], '`department_id` ASC', 'result');
-																	
-																	
+
+
 																	foreach ($department_list as $department_list2) {
 																		$department_id = $department_list2->department_id;
 
 																		$tot_added_qty = 0;
 																		$tot_used_qty = 0;
 
-																		$tot_added = $this->Master_Model->get_data('admi_dep_qty', 'SUM(dep_qty) as tot_added_qty', ['department_id' => $department_id, 'item_id' => $item_id, 'job_item_id' => $job_item_id, 'dep_qty_entry_type' => '1'], '`dep_qty_id` ASC', 'row_array');
-																		$tot_used = $this->Master_Model->get_data('admi_dep_qty', 'SUM(dep_qty) as tot_used_qty', ['department_id' => $department_id, 'item_id' => $item_id, 'job_item_id' => $job_item_id, 'dep_qty_entry_type' => '2'], '`dep_qty_id` ASC', 'row_array');
+																		// $tot_added = $this->Master_Model->get_data('admi_dep_qty', 'SUM(dep_qty) as tot_added_qty', ['department_id' => $department_id, 'item_id' => $item_id, 'job_item_id' => $job_item_id, 'dep_qty_entry_type' => '1'], '`dep_qty_id` ASC', 'row_array');
+																		// $tot_used = $this->Master_Model->get_data('admi_dep_qty', 'SUM(dep_qty) as tot_used_qty', ['department_id' => $department_id, 'item_id' => $item_id, 'job_item_id' => $job_item_id, 'dep_qty_entry_type' => '2'], '`dep_qty_id` ASC', 'row_array');
+
+																		$tot_added = $this->Master_Model->get_data('admi_dep_qty', 'SUM(dep_qty) as tot_added_qty', ['department_id' => $department_id, 'po_item_id' => $po_item_id,  'dep_qty_entry_type' => '1'], '`dep_qty_id` ASC', 'row_array');
+																		$tot_used = $this->Master_Model->get_data('admi_dep_qty', 'SUM(dep_qty) as tot_used_qty', ['department_id' => $department_id, 'po_item_id' => $po_item_id, 'dep_qty_entry_type' => '2'], '`dep_qty_id` ASC', 'row_array');
 
 																		if ($tot_added && $tot_added['tot_added_qty'] > 0) {
 																			$tot_added_qty = $tot_added['tot_added_qty'];
@@ -241,7 +267,16 @@
 																		}
 
 																		$tot_balance_qty = $tot_added_qty - $tot_used_qty;
-																		if($tot_balance_qty < 0){
+
+																		$this->db->select_sum('job_item_reject_qty');
+																		$this->db->where('po_item_id', $po_item_id);
+																		$query = $this->db->get('admi_job_item')->row_array();
+
+																		$rejectedQty = $query['job_item_reject_qty'];
+																		// After minus rejected
+																		$tot_balance_qty = $tot_balance_qty - $rejectedQty;
+
+																		if ($tot_balance_qty < 0) {
 																			$tot_balance_qty = 0;
 																		}
 																	?>
@@ -316,14 +351,15 @@
 			},
 			context: this,
 			success: function(result) {
-		departList();
+				departList();
 
 				$('#process_type_id').html(result);
 			}
 		});
-		
+
 	});
-	function departList(){
+
+	function departList() {
 		$.ajax({
 			url: '<?php echo base_url(); ?>Master/get_department_list',
 			type: 'POST',

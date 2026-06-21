@@ -14,7 +14,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-12 text-left mt-2">
-            <h4>Transaction Entry</h4>
+            <h4>Rejection Entry</h4>
           </div>
         </div>
       </div>
@@ -26,7 +26,7 @@
           <div class="col-md-12">
             <div class="card <?php if(!isset($update)){ echo 'collapsed-card'; } ?> card-default">
               <div class="card-header">
-                <h3 class="card-title"> <?php if(isset($update)){ echo 'Update'; } else{ echo 'Add New'; } ?> Transaction Entry</h3>
+                <h3 class="card-title"> <?php if(isset($update)){ echo 'Update'; } else{ echo 'Add New'; } ?> Rejection Entry</h3>
                 <div class="card-tools">
                   <?php if(!isset($update)){
                     echo '<button type="button" class="btn btn-sm btn-primary" data-card-widget="collapse">Add New</button>';
@@ -74,7 +74,7 @@
                       <hr>
                       <div class="row">
                         <div class="col-md-6">
-                          <p class="f-16"><b>Transaction Entry Details</b></p>
+                          <p class="f-16"><b>Rejection Entry Details</b></p>
                         </div>
                         <div class="col-md-6 text-right">
                           <!-- <button type="button" id="add_row1" class="btn btn-sm btn-info mb-3 mr-1" width="150px">Add Row</button> -->
@@ -150,7 +150,7 @@
 																		</div>
 																		<div class="form-group col-md-3 select_sm">
 																			<label>Grade<span class="text-danger">*</span></label>
-																			<select class="form-control select2 form-control-sm w-100 grade_id" name="input[<?php echo $i; ?>][grade_id]" data-placeholder="Select Grade" required>
+																			<select class="form-control select2 form-control-sm w-100 grade_id" name="input[<?php echo $i; ?>][grade_id]" data-placeholder="Select Grade" >
 																				<option value="">Select Grade</option>
 																				<?php if(isset($grade_list)){ foreach ($grade_list as $grade_list2) { ?>
 																				<option value="<?php echo $grade_list2->grade_id; ?>" <?php if($grade_list2->grade_id == $list->grade_id){ echo ' selected'; } if($grade_list2->grade_status == 0){ echo ' disabled'; } ?> ><?php echo $grade_list2->grade_name; ?></option>
@@ -238,8 +238,8 @@
 																		<div class="form-group col-md-3"></div> -->
 
 																		<div class="form-group col-md-3 offset-md-3">
-																			<label>Pending Qty<span class="text-danger">*</span></label>
-																			<input type="text" class="form-control form-control-sm job_item_pending_qty" name="input[<?php echo $i; ?>][job_item_pending_qty]" value="<?= $list->job_item_pending_qty; ?>" required readonly>
+																			<!-- <label>Pending Qty<span class="text-danger">*</span></label>
+																			<input type="text" class="form-control form-control-sm job_item_pending_qty" name="input[<?php echo $i; ?>][job_item_pending_qty]" value="<?= $list->job_item_pending_qty; ?>" required readonly> -->
 																		</div>
 																		<?php if($i > 0){ ?>
 																			<div class="form-group col-md-3 pt-2">
@@ -361,8 +361,8 @@
 																		<div class="form-group col-md-3"></div> -->
 
 																		<div class="form-group col-md-3 offset-md-3">
-																			<label>Pending Qty<span class="text-danger">*</span></label>
-																			<input type="text" class="form-control form-control-sm job_item_pending_qty" name="input[0][job_item_pending_qty]" required readonly>
+																			<!-- <label>Pending Qty<span class="text-danger">*</span></label>
+																			<input type="text" class="form-control form-control-sm job_item_pending_qty" name="input[0][job_item_pending_qty]" required readonly> -->
 																		</div>
 																	</div>
                                 </td>
@@ -378,7 +378,7 @@
                       <div class="row">
 												<div class="col-md-12">
                           <div class="form-group select_sm">
-                            <label class="">Remark<span class="text-danger">*</span></label>
+                            <label class="">Remark</label>
 
 														<!-- <select class="form-control select2 form-control-sm" multiple name="product_id[]" id="product_id[]" data-placeholder="Select Product" required>
 															<option value="">Select Product</option>
@@ -395,7 +395,7 @@
 														</select> -->
 
 
-                            <select class="form-control select2" multiple name="remark_id[]" id="remark_id[]" data-placeholder="Select Remark" required>
+                            <select class="form-control select2" multiple name="remark_id[]" id="remark_id[]" data-placeholder="Select Remark" >
 															<option value="">Select Remark</option>
 															<?php if(isset($remark_list)){ foreach ($remark_list as $list) { ?>
 																<option value="<?php echo $list->remark_id; ?>"
@@ -447,7 +447,7 @@
           <div class="col-md-12">
             <div class="card">
               <div class="card-header border-transparent">
-                <h3 class="card-title">Transaction Entry List</h3>
+                <h3 class="card-title">Rejection Entry List</h3>
               </div>
               <div class="card-body p-2" style="overflow-x: auto">
                 <table id="example1" class="table table-bordered table-striped">
@@ -665,6 +665,7 @@
 	// get_total_bal_by_department...
 	$(document).on("change",".department_id, .job_item_po_qty", function(){
     var department_id  =  $(this).find("option:selected").val();
+	$(".rejected_department_id ").val(department_id).trigger('change');
     var item_id =  $('#item_id').find("option:selected").val();
     var po_item_id  =  $(this).closest('tr').find('.po_item_id').val();
 
@@ -782,7 +783,7 @@
 					'</div>'+
 					'<div class="form-group col-md-3 select_sm">'+
 						'<label>Grade<span class="text-danger">*</span></label>'+
-						'<select class="form-control select2 form-control-sm w-100 grade_id" name="input['+i+'][grade_id]" data-placeholder="Select Grade" required>'+
+						'<select class="form-control select2 form-control-sm w-100 grade_id" name="input['+i+'][grade_id]" data-placeholder="Select Grade" >'+
 							'<option value="">Select Grade</option>'+
 							'<?php if(isset($grade_list)){ foreach ($grade_list as $grade_list2) { ?>'+
 							'<option value="<?php echo $grade_list2->grade_id; ?>" <?php if($grade_list2->grade_status == 0){ echo ' disabled'; } ?> ><?php echo $grade_list2->grade_name; ?></option>'+
@@ -859,8 +860,8 @@
 					// '</div>'+
 					'<div class="form-group col-md-3"></div>'+
 					'<div class="form-group col-md-3 offset-md-3">'+
-						'<label>Pending Qty<span class="text-danger">*</span></label>'+
-						'<input type="text" class="form-control form-control-sm job_item_pending_qty" name="input['+i+'][job_item_pending_qty]" required readonly>'+
+						// '<label>Pending Qty<span class="text-danger">*</span></label>'+
+						// '<input type="text" class="form-control form-control-sm job_item_pending_qty" name="input['+i+'][job_item_pending_qty]" required readonly>'+
 					'</div>'+
 					'<div class="form-group col-md-3 pt-2">'+
 						'<a class="rem_row"><i class="fa fa-trash text-danger f-20"></i></a>'+

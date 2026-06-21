@@ -77,8 +77,8 @@
 										</div>
 
 										<div class="form-group col-md-4 offset-md-2 select_sm">
-											<label>Grade<span class="text-danger">*</span></label>
-											<select class="form-control select2" name="grade_id" id="grade_id" data-placeholder="Select Grade" required>
+											<label>Grade</label>
+											<select class="form-control select2" name="grade_id" id="grade_id" data-placeholder="Select Grade" >
                         <option value="">Select Grade</option>
                         <?php if(isset($grade_list)){ foreach ($grade_list as $list) { ?>
                         <option value="<?php echo $list->grade_id; ?>" <?php if(isset($item_info) && $item_info['grade_id'] == $list->grade_id){ echo 'selected'; } if($list->grade_status == '0'){ echo ' disabled'; } ?>><?php echo $list->grade_name; ?></option>

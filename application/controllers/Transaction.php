@@ -206,7 +206,7 @@ class Transaction extends CI_Controller
 
 			$save_data = $_POST;
 			unset($save_data['input']);
-			$remark_id = implode(", ", $_POST['remark_id']);
+			$remark_id = implode(", ", $_POST['remark_id']) ?? '';
 			$save_data['remark_id'] = $remark_id;
 			$save_data['company_id'] = $admi_user_data['company_id'];
 			$save_data['job_process_addedby'] = $admi_user_data['user_id'];
@@ -305,7 +305,7 @@ class Transaction extends CI_Controller
 				$this->_set_flashdata_and_redirect('Transaction/job_process', 'Job Process Not Saved', 'error');
 			}
 		}
-		$data['job_process_no'] = $this->Master_Model->get_count_no('job_process_no', ['company_id' => $admi_user_data['company_id']], 'admi_job_process');
+		$data['job_process_no'] = $this->Master_Model->get_count_no('job_process_no', ['company_id' => $admi_user_data['company_id'],'tran_type'=>'1'], 'admi_job_process');
 
 		$data['party_list'] = $this->Master_Model->get_data('admi_party', '*', ['company_id' => $admi_user_data['company_id'], 'party_group_id' => '1'], '`party_name` ASC', 'result');
 		$data['item_group_list'] = $this->Master_Model->get_data('admi_item_group', '*', ['company_id' => $admi_user_data['company_id']], '`item_group_name` ASC', 'result');
@@ -611,12 +611,17 @@ class Transaction extends CI_Controller
 
 			$save_data = $_POST;
 			unset($save_data['input']);
+			unset($save_data['pending_qty']);
+
 			$save_data['company_id'] = $admi_user_data['company_id'];
 			$save_data['dispatch_addedby'] = $admi_user_data['user_id'];
 			$save_data['dispatch_created_at'] = date('Y-m-d H:i:s');
 
 			$dispatch_id = $this->Master_Model->save_data('admi_dispatch', $save_data);
-			
+// echo'<pre>';
+// 					print_r($this->db->last_query());
+// 					echo'</pre>';
+// 					die;
 			($dispatch_id);
 			if ($dispatch_id) {
 				foreach ($_POST['input'] as $multi_data) {
@@ -630,7 +635,8 @@ class Transaction extends CI_Controller
 					$multi_data['dispatch_item_created_at'] = date('Y-m-d H:i:s');
 					unset($multi_data['dispatch_item_poaty_no']);
 					$this->db->insert('admi_dispatch_item', $multi_data);
-				
+					
+					
 				}
 
 				$this->_set_flashdata_and_redirect('Transaction/dispatch', 'Dispatch Entry Saved Successfully', 'success');
@@ -729,8 +735,8 @@ class Transaction extends CI_Controller
 		$data['remark_list'] = $this->Master_Model->get_data('admi_remark', '*', ['company_id' => $admi_user_data['company_id']], '`remark_name` ASC', 'result');
 
 		$data['dispatch_item_list'] = $this->Master_Model->get_data('admi_dispatch_item', '*', ['company_id' => $admi_user_data['company_id'], 'dispatch_id' => $dispatch_id], '`dispatch_item_id` ASC', 'result');
-		
-		
+
+
 		$data['dispatch_list'] = $this->Master_Model->get_data('admi_dispatch', '*', ['company_id' => $admi_user_data['company_id']], '`dispatch_id` DESC', 'result');
 		$data['main_menu'] = "Transaction";
 		$data['sub_menu'] = "Dispatch Entry";
@@ -786,11 +792,16 @@ class Transaction extends CI_Controller
 	{
 		$po_item_id = $this->input->post('po_item_id');
 		$po_item_info = $this->Master_Model->get_data('admi_po_item', '*', ['po_item_id' => $po_item_id], '`po_item_id` ASC', 'row_array');
-
 		$purchase_order_info = $this->Master_Model->get_data('admi_purchase_order', '*', ['purchase_order_id' => $po_item_info['purchase_order_id']], '`purchase_order_id` ASC', 'row_array');
+		$this->db->select_sum('job_item_ok_qty');
+		$this->db->where('po_item_id', $po_item_id);
+		$query = $this->db->get('admi_job_item')->row_array();
 
+
+		$totalPending_qty = $query['job_item_ok_qty'] == 0 ? $po_item_info['po_item_qty'] : ($po_item_info['po_item_qty']-$query['job_item_ok_qty']);
 		$data['po_item_info'] = $po_item_info;
 		$data['purchase_order_info'] = $purchase_order_info;
+		$data['totalPending_qty'] = $totalPending_qty;
 
 		echo json_encode($data);
 	}
@@ -857,7 +868,7 @@ class Transaction extends CI_Controller
 
 
 			unset($save_data['input']);
-			$remark_id = implode(", ", $_POST['remark_id']);
+			$remark_id = implode(", ", $_POST['remark_id']) ?? '';
 			$save_data['remark_id'] = $remark_id;
 			$save_data['company_id'] = $admi_user_data['company_id'];
 			$save_data['job_process_addedby'] = $admi_user_data['user_id'];
@@ -950,12 +961,12 @@ class Transaction extends CI_Controller
 					$this->Master_Model->save_data('admi_dep_qty', $used_add);
 				}
 
-				$this->_set_flashdata_and_redirect('Transaction/transaction_entry', 'Job Process Saved Successfully', 'success');
+				$this->_set_flashdata_and_redirect('Transaction/transaction_entry', 'Rejection entry Saved Successfully', 'success');
 			} else {
-				$this->_set_flashdata_and_redirect('Transaction/transaction_entry', 'Job Process Not Saved', 'error');
+				$this->_set_flashdata_and_redirect('Transaction/transaction_entry', 'Rejection entry Not Saved', 'error');
 			}
 		}
-		$data['job_process_no'] = $this->Master_Model->get_count_no('job_process_no', ['company_id' => $admi_user_data['company_id']], 'admi_job_process');
+		$data['job_process_no'] = $this->Master_Model->get_count_no('job_process_no', ['company_id' => $admi_user_data['company_id'],'tran_type'=>'2'], 'admi_job_process');
 
 		$data['party_list'] = $this->Master_Model->get_data('admi_party', '*', ['company_id' => $admi_user_data['company_id'], 'party_group_id' => '1'], '`party_name` ASC', 'result');
 		$data['item_group_list'] = $this->Master_Model->get_data('admi_item_group', '*', ['company_id' => $admi_user_data['company_id']], '`item_group_name` ASC', 'result');

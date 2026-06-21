@@ -110,9 +110,8 @@
                         </select>
                       </div>
                    
-                          <input type="hidden" readonly class="form-control form-control-sm datetimepicker-input" name="po_qty" id="po_qty" value="<?php if (isset($dispatch_info)) {
-                                                                                                                                                      echo $dispatch_info['dispatch_date'];
-                                                                                                                                                    } ?>" data-target="#date1" data-toggle="datetimepicker" required>
+                          <input type="hidden" readonly class="form-control form-control-sm datetimepicker-input" name="po_qty" id="po_qty" required>
+                          <input type="hidden" readonly class="form-control form-control-sm datetimepicker-input" name="pending_qty" id="pending_qty" required>
                        
 
 
@@ -408,10 +407,13 @@ updatePoQty();
   });
   $('#purchase_order_id').on('select2:select', function(e) {
     var qtyValue = $(e.params.data.element).data('qty');
+    var pendingqtyValue = $(e.params.data.element).data('pending');
 
     console.log(qtyValue);
 
     $('#po_qty').val(qtyValue);
+    $('#pending_qty').val(pendingqtyValue);
+    $('.dispatch_item_pending_qty').val(pendingqtyValue);
     $(".dispatch_item_poaty_no").val(qtyValue);
   });
 </script>
@@ -427,6 +429,8 @@ updatePoQty();
   $(document).on('click', '#add_row1', function() {
     i++;
     let Poqty = $("#po_qty").val();
+    var poPendingQty = parseFloat($("#pending_qty").val()) || 0;
+
     var row = '' +
       '<tr>' +
       '<td class="wtm_100">' +
@@ -444,7 +448,7 @@ updatePoQty();
       '</div>' +
       '</td>' +
       '<td class="wtm_100">' +
-      '<input type="number" class="form-control form-control-sm dispatch_item_pending_qty" name="input[' + i + '][dispatch_item_pending_qty]" required>' +
+      '<input type="number" class="form-control form-control-sm dispatch_item_pending_qty" value="'+poPendingQty+'" name="input[' + i + '][dispatch_item_pending_qty]" required>' +
       '</td>' +
       '<td class="select_sm wtm_150">' +
       '<select class="form-control select2 form-control-sm remark_id w-100" name="input[' + i + '][remark_id]" data-placeholder="Select DRG No" required>' +
@@ -491,10 +495,11 @@ function updatePoQty() {
 }
   function dispatchQty(element) {
     var poQty = parseFloat($("#po_qty").val()) || 0;
+    var poPendingQty = parseFloat($("#pending_qty").val()) || 0;
     var currentQty = parseFloat($(element).val()) || 0;
-    if (currentQty > poQty) {
+    if (currentQty > poPendingQty) {
       alert('Dispatch Qty cannot be greater than PO Qty');
-      $(element).val(poQty);
+      $(element).val(poPendingQty);
       dispatchQty(element);
 
       return;
@@ -504,7 +509,7 @@ function updatePoQty() {
     var inputName = $(element).attr('name');
     var index = inputName.match(/\[(\d+)\]/)[1];
 
-    $("input[name='input[" + index + "][dispatch_item_pending_qty]']")
-      .val(poQty - currentQty);
+    // $("input[name='input[" + index + "][dispatch_item_pending_qty]']")
+    //   .val(poPendingQty - currentQty);
   }
 </script>

@@ -47,12 +47,12 @@
 											</div>
                     </div>
 										<div class="form-group col-md-4 select_sm">
-											<label>Terms<span class="text-danger">*</span></label>
+											<!-- <label>Terms<span class="text-danger">*</span></label>
 											<select class="form-control select2" name="purchase_order_term" id="purchase_order_term" data-placeholder="Select Terms" required>
                         <option value="">Select Terms</option>
 												<option value="Cash" <?php if(isset($purchase_order_info) && $purchase_order_info['purchase_order_term'] == 'Cash'){ echo 'selected'; }  ?>>Cash</option>
 												<option value="Credit" <?php if(isset($purchase_order_info) && $purchase_order_info['purchase_order_term'] == 'Credit'){ echo 'selected'; }  ?>>Credit</option>
-                      </select>
+                      </select> -->
 										</div>
 										<div class="form-group col-md-4 offset-md-2 select_sm">
 											<label>Party<span class="text-danger">*</span></label>
@@ -134,7 +134,7 @@
                                   <input type="text" class="form-control form-control-sm po_item_descr" name="input[<?php echo $i; ?>][po_item_descr]" value="<?= $list->po_item_descr; ?>" required>
                                 </td>
 																<td class="select_sm wtm_100">
-                                  <select class="form-control select2 form-control-sm grade_id" name="input[<?php echo $i; ?>][grade_id]" data-placeholder="Select Grade" required>
+                                  <select class="form-control select2 form-control-sm grade_id" name="input[<?php echo $i; ?>][grade_id]" data-placeholder="Select Grade" >
                                     <option value="">Select Grade</option>
                                     <?php if(isset($grade_list)){ foreach ($grade_list as $grade_list2) { ?>
                                     <option value="<?php echo $grade_list2->grade_id; ?>" <?php if($list->grade_id == $grade_list2->grade_id){ echo ' selected'; } if($grade_list2->grade_status == 0){ echo ' disabled'; } ?> ><?php echo $grade_list2->grade_name; ?></option>
@@ -184,7 +184,7 @@
                                   <input type="text" class="form-control form-control-sm po_item_descr" name="input[0][po_item_descr]" required>
                                 </td>
 																<td class="select_sm wtm_100">
-                                  <select class="form-control select2 form-control-sm grade_id" name="input[0][grade_id]" data-placeholder="Select Grade" required>
+                                  <select class="form-control select2 form-control-sm grade_id" name="input[0][grade_id]" data-placeholder="Select Grade" >
                                     <option value="">Select Grade</option>
                                     <?php if(isset($grade_list)){ foreach ($grade_list as $grade_list2) { ?>
                                     <option value="<?php echo $grade_list2->grade_id; ?>" <?php if($grade_list2->grade_status == 0){ echo ' disabled'; } ?> ><?php echo $grade_list2->grade_name; ?></option>
@@ -265,8 +265,8 @@
                     <th class="d-none">#</th>
                     <th class="wtm_50">Action</th>
                     <th class="">Party</th>
-                    <th class="wt_100">PO Number</th>
                     <th class="wt_100">PO Date</th>
+                    <th class="wt_100">PO Number</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -413,7 +413,7 @@
 				'<input type="text" class="form-control form-control-sm po_item_descr" name="input['+i+'][po_item_descr]" required>'+
 			'</td>'+
 			'<td class="select_sm wtm_100">'+
-				'<select class="form-control search_select1 form-control-sm grade_id" name="input['+i+'][grade_id]" data-placeholder="Select Grade" required>'+
+				'<select class="form-control search_select1 form-control-sm grade_id" name="input['+i+'][grade_id]" data-placeholder="Select Grade" >'+
 					'<option value="">Select Grade</option>'+
 					'<?php if(isset($grade_list)){ foreach ($grade_list as $grade_list2) { ?>'+
 					'<option value="<?php echo $grade_list2->grade_id; ?>" <?php if($grade_list2->grade_status == 0){ echo ' disabled'; } ?> ><?php echo $grade_list2->grade_name; ?></option>'+

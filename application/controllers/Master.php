@@ -3063,7 +3063,7 @@ class Master extends CI_Controller
 		// print_r($admi_user_data);
 
 		// if ($admi_user_data['role_id'] == '1') {
-			$item_list = $this->Master_Model->get_data('admi_item', '*', ['party_id' => $party_id], '`item_id` ASC', 'result');
+		$item_list = $this->Master_Model->get_data('admi_item', '*', ['party_id' => $party_id], '`item_id` ASC', 'result');
 		// } else {
 		// 	$item_list = $this->Master_Model->get_data('admi_item', '*', ['party_id' => $party_id, 'process_type_id' => $admi_user_data['process_type_id']], '`item_id` ASC', 'result');
 		// }
@@ -3096,9 +3096,9 @@ class Master extends CI_Controller
 		$item_data = $this->Master_Model->get_data('admi_item', '*', ['item_id' => $item_id], '`item_id` ASC', 'row_array');
 
 		if ($_SESSION['admi_user_data']['role_id'] == 1) {
-			if(isset($item_data['process_type_id'])){
+			if (isset($item_data['process_type_id'])) {
 				$process_type_list = $this->Master_Model->get_data('admi_process_type', '*', ['process_type_id' => $item_data['process_type_id']], '`process_type_id` ASC', 'result');
-				}else{
+			} else {
 				$process_type_list = $this->Master_Model->get_data('admi_process_type', '*', [], '`process_type_id` ASC', 'result');
 			}
 		} else {
@@ -3164,20 +3164,33 @@ class Master extends CI_Controller
 		echo "<option value='' selected >Select Process Type</option>";
 		foreach ($po_item_list as $list) {
 			$purchase_order_id = $list->purchase_order_id;
+$this->db->select_sum('dispatch_item_qty');
+		$this->db->where('purchase_order_id', $purchase_order_id);
+		$Dispatchquery = $this->db->get('admi_dispatch_item')->row_array();
+		
+		$dispatchPending = $Dispatchquery['dispatch_item_qty'] == 0 ? $list->po_item_qty : ($list->po_item_qty - $Dispatchquery['dispatch_item_qty']);
 
 			$purchase_order_data = $this->Master_Model->get_data('admi_purchase_order', 'purchase_order_no', ['purchase_order_id' => $purchase_order_id], '`purchase_order_id` ASC', 'row_array');
 
-			echo "<option value='" . $list->purchase_order_id . "' data-qty='" . $list->po_item_qty . "'> " . $purchase_order_data['purchase_order_no'] . " </option>";
+			echo "<option value='" . $list->purchase_order_id . "' data-pending='".$dispatchPending."' data-qty='" . $list->po_item_qty . "'> " . $purchase_order_data['purchase_order_no'] . " </option>";
 		}
+
 	}
 
 	// get_grade_list_by_item
 	public function get_grade_list_by_item()
 	{
 		$item_id = $this->input->post('item_id');
-		$item_info = $this->Master_Model->get_data('admi_item', 'item_id,grade_id', ['item_id' => $item_id], '`item_id` ASC', 'row_array');
-
+		if ($item_id != "") {
+			$item_info = $this->Master_Model->get_data('admi_item', 'item_id,grade_id', ['item_id' => $item_id], '`item_id` ASC', 'row_array');
 		$grade_list = $this->Master_Model->get_data('admi_grade', '*', ['grade_id' => $item_info['grade_id']], '`grade_id` ASC', 'result');
+		
+			} else {
+			// $item_info = $this->Master_Model->get_data('admi_item', 'item_id,grade_id', [], '`item_id` ASC', 'row_array');
+		$grade_list = $this->Master_Model->get_data('admi_grade', '*', [], '`grade_id` ASC', 'result');
+		
+			}
+
 
 		echo "<option value='' selected >Select Grade</option>";
 		foreach ($grade_list as $list) {
