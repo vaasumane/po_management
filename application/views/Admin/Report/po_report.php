@@ -270,6 +270,7 @@
 
 																		$this->db->select_sum('job_item_reject_qty');
 																		$this->db->where('po_item_id', $po_item_id);
+																		$this->db->where('rejected_department_id',$department_id);
 																		$query = $this->db->get('admi_job_item')->row_array();
 
 																		$rejectedQty = $query['job_item_reject_qty'];

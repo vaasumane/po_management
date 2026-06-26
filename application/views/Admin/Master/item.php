@@ -86,8 +86,8 @@
                       </select>
 										</div>
 										<div class="form-group col-md-4">
-											<label>HSN Code<span class="text-danger">*</span></label>
-											<input type="text" class="form-control form-control-sm" name="item_hsn_code" id="item_hsn_code" value="<?php if(isset($item_info)){ echo $item_info['item_hsn_code']; } ?>" placeholder="Enter HSN Code" required>
+											<label>HSN Code</label>
+											<input type="text" class="form-control form-control-sm" name="item_hsn_code" id="item_hsn_code" value="<?php if(isset($item_info)){ echo $item_info['item_hsn_code']; } ?>" placeholder="Enter HSN Code" >
 										</div>
 										<div class="form-group col-md-8 offset-md-2">
 											<label>Description</label>

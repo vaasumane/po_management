@@ -184,11 +184,11 @@
 								</li> 
 							<?php } ?>
 							<?php if($role_id == 1 || in_array("process1", $role_access)){ ?>
-								<li class="nav-item">
+								<!-- <li class="nav-item">
 									<a href="<?php echo base_url(); ?>Master/process" class="nav-link <?php if(isset($sub_menu) && $sub_menu == "Process"){ echo 'active'; } ?>">
 										<i class="far fa-circle nav-icon"></i> <p>Process</p>
 									</a>
-								</li> 
+								</li>  -->
 							<?php } ?>
 							<?php if($role_id == 1 || in_array("item1", $role_access)){ ?>
 								<li class="nav-item">
