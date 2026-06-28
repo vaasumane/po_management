@@ -793,6 +793,7 @@ class Transaction extends CI_Controller
 		$po_item_id = $this->input->post('po_item_id');
 		$po_item_info = $this->Master_Model->get_data('admi_po_item', '*', ['po_item_id' => $po_item_id], '`po_item_id` ASC', 'row_array');
 		$purchase_order_info = $this->Master_Model->get_data('admi_purchase_order', '*', ['purchase_order_id' => $po_item_info['purchase_order_id']], '`purchase_order_id` ASC', 'row_array');
+		
 		$this->db->select_sum('job_item_ok_qty');
 		$this->db->where('po_item_id', $po_item_id);
 		$query = $this->db->get('admi_job_item')->row_array();

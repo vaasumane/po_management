@@ -223,6 +223,22 @@
 
 																$job_item_id = 0;
 																$job_item_info = $this->Master_Model->get_data('admi_job_item', '*', ['po_item_id' => $po_item_id, 'item_id' => $item_id, 'party_id' => $party_id], '`po_item_id` ASC', 'row_array');
+																$job_item_infoIds = $this->db
+																	->select('admi_job_item.job_item_id')
+																	->from('admi_job_item')
+																	->join(
+																		'admi_job_process',
+																		'admi_job_process.job_process_id = admi_job_item.job_process_id',
+																		'inner'
+																	)
+																	->where('admi_job_item.po_item_id', $po_item_id)
+																	->where('admi_job_item.item_id', $item_id)
+																	->where('admi_job_item.party_id', $party_id)
+																	->where('admi_job_process.tran_type', 1)
+																	->order_by('admi_job_item.po_item_id', 'ASC')
+																	->get()
+																	->result_array();
+																$job_item_infoIds = array_column($job_item_infoIds, 'job_item_id');
 
 																if ($job_item_info) {
 																	$job_item_id = $job_item_info['job_item_id'];
@@ -256,9 +272,30 @@
 																		// $tot_added = $this->Master_Model->get_data('admi_dep_qty', 'SUM(dep_qty) as tot_added_qty', ['department_id' => $department_id, 'item_id' => $item_id, 'job_item_id' => $job_item_id, 'dep_qty_entry_type' => '1'], '`dep_qty_id` ASC', 'row_array');
 																		// $tot_used = $this->Master_Model->get_data('admi_dep_qty', 'SUM(dep_qty) as tot_used_qty', ['department_id' => $department_id, 'item_id' => $item_id, 'job_item_id' => $job_item_id, 'dep_qty_entry_type' => '2'], '`dep_qty_id` ASC', 'row_array');
 
-																		$tot_added = $this->Master_Model->get_data('admi_dep_qty', 'SUM(dep_qty) as tot_added_qty', ['department_id' => $department_id, 'po_item_id' => $po_item_id,  'dep_qty_entry_type' => '1'], '`dep_qty_id` ASC', 'row_array');
-																		$tot_used = $this->Master_Model->get_data('admi_dep_qty', 'SUM(dep_qty) as tot_used_qty', ['department_id' => $department_id, 'po_item_id' => $po_item_id, 'dep_qty_entry_type' => '2'], '`dep_qty_id` ASC', 'row_array');
 
+																		// $tot_added = $this->Master_Model->get_data('admi_dep_qty', 'SUM(dep_qty) as tot_added_qty', ['department_id' => $department_id, 'po_item_id' => $po_item_id,   'dep_qty_entry_type' => '1'], '`dep_qty_id` ASC', 'row_array');
+																		// $tot_used = $this->Master_Model->get_data('admi_dep_qty', 'SUM(dep_qty) as tot_used_qty', ['department_id' => $department_id, 'po_item_id' => $po_item_id,  'dep_qty_entry_type' => '2'], '`dep_qty_id` ASC', 'row_array');
+
+																		$tot_added = $this->db
+																			->select('SUM(dep_qty) as tot_added_qty')
+																			->from('admi_dep_qty')
+																			->where('department_id', $department_id)
+																			->where('po_item_id', $po_item_id)
+																			->where_in('job_item_id', $job_item_infoIds)
+																			->where('dep_qty_entry_type', 1)
+																			->order_by('dep_qty_id', 'ASC')
+																			->get()
+																			->row_array();
+																		$tot_used = $this->db
+																			->select('SUM(dep_qty) as tot_used_qty')
+																			->from('admi_dep_qty')
+																			->where('department_id', $department_id)
+																			->where('po_item_id', $po_item_id)
+																			->where_in('job_item_id', $job_item_infoIds)
+																			->where('dep_qty_entry_type', 2)
+																			->order_by('dep_qty_id', 'ASC')
+																			->get()
+																			->row_array();
 																		if ($tot_added && $tot_added['tot_added_qty'] > 0) {
 																			$tot_added_qty = $tot_added['tot_added_qty'];
 																		}
@@ -270,7 +307,7 @@
 
 																		$this->db->select_sum('job_item_reject_qty');
 																		$this->db->where('po_item_id', $po_item_id);
-																		$this->db->where('rejected_department_id',$department_id);
+																		$this->db->where('rejected_department_id', $department_id);
 																		$query = $this->db->get('admi_job_item')->row_array();
 
 																		$rejectedQty = $query['job_item_reject_qty'];

@@ -3197,6 +3197,25 @@ class Master extends CI_Controller
 			echo "<option value='" . $list->grade_id . "' selected> " . $list->grade_name . " </option>";
 		}
 	}
+	
+	public function get_grade_list_by_po()
+	{
+		$item_id = $this->input->post('po_item_id');
+		
+		
+		if ($item_id != "") {
+			$item_info = $this->Master_Model->get_data('admi_po_item', 'grade_id', ['po_item_id' => $item_id], '`item_id` ASC', 'row_array');
+			$grade_list = $this->Master_Model->get_data('admi_grade', '*', ['grade_id' => $item_info['grade_id']], '`grade_id` ASC', 'result');
+		} else {
+			$grade_list = array();
+		}
+
+
+		echo "<option value='' selected >Select Grade</option>";
+		foreach ($grade_list as $list) {
+			echo "<option value='" . $list->grade_id . "' selected> " . $list->grade_name . " </option>";
+		}
+	}
 
 
 

@@ -76,7 +76,7 @@
 											<input type="text" class="form-control form-control-sm" name="item_finished_drw_no" id="item_finished_drw_no" value="<?php if(isset($item_info)){ echo $item_info['item_finished_drw_no']; } ?>" placeholder="Enter Finished Drawing No." required>
 										</div>
 
-										<div class="form-group col-md-4 offset-md-2 select_sm">
+										<!-- <div class="form-group col-md-4 offset-md-2 select_sm">
 											<label>Grade</label>
 											<select class="form-control select2" name="grade_id" id="grade_id" data-placeholder="Select Grade" >
                         <option value="">Select Grade</option>
@@ -84,11 +84,11 @@
                         <option value="<?php echo $list->grade_id; ?>" <?php if(isset($item_info) && $item_info['grade_id'] == $list->grade_id){ echo 'selected'; } if($list->grade_status == '0'){ echo ' disabled'; } ?>><?php echo $list->grade_name; ?></option>
                         <?php } } ?>
                       </select>
-										</div>
-										<div class="form-group col-md-4">
+										</div> -->
+										<!-- <div class="form-group col-md-4">
 											<label>HSN Code</label>
 											<input type="text" class="form-control form-control-sm" name="item_hsn_code" id="item_hsn_code" value="<?php if(isset($item_info)){ echo $item_info['item_hsn_code']; } ?>" placeholder="Enter HSN Code" >
-										</div>
+										</div> -->
 										<div class="form-group col-md-8 offset-md-2">
 											<label>Description</label>
 											<textarea class="form-control form-control-sm" rows="5" name="item_descr" id="item_descr" placeholder="Enter Item Description" ><?php if(isset($item_info)){ echo $item_info['item_descr']; } ?></textarea>
@@ -102,7 +102,7 @@
                         <?php } } ?>
                       </select>
 										</div>
-										<div class="form-group col-md-4 select_sm">
+										<!-- <div class="form-group col-md-4 select_sm">
 											<label>GST<span class="text-danger">*</span></label>
 											<select class="form-control select2" name="tax_rate_id" id="tax_rate_id" data-placeholder="Select GST" required>
                         <option value="">Select GST</option>
@@ -110,7 +110,7 @@
                         <option value="<?php echo $list->tax_rate_id; ?>" <?php if(isset($item_info) && $item_info['tax_rate_id'] == $list->tax_rate_id){ echo 'selected'; } if($list->tax_rate_status == '0'){ echo ' disabled'; } ?>><?php echo $list->tax_rate_name; ?></option>
                         <?php } } ?>
                       </select>
-										</div>
+										</div> -->
 										
 									</div>
 									<div class="card-footer clearfix" style="display: block;">
@@ -157,7 +157,7 @@
                       <th>Process Type</th>
                       <th>Casting Drawing No.</th>
                       <th>Finished Drawing No</th>
-                      <th>Grade</th>
+                      <!-- <th>Grade</th> -->
                       <th class="wt_30">Status</th>
                     </tr>
                   </thead>
@@ -185,7 +185,7 @@
                       <td><?php if($process_type_info){ echo $process_type_info['process_type_name']; } ?></td>
 											<td><?= $list->item_casting_drw_no; ?></td>
 											<td><?= $list->item_finished_drw_no; ?></td>
-                      <td><?php if($grade_info){ echo $grade_info['grade_name']; } ?></td>
+                      <!-- <td><?php if($grade_info){ echo $grade_info['grade_name']; } ?></td> -->
                       <!--  -->
                       <td>
                           <?php if($list->item_status == 0){ echo '<span class="text-danger">Inactive</span>'; }

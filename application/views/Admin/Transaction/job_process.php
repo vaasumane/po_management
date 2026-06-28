@@ -192,7 +192,7 @@
 																				</div>
 																				<div class="form-group col-md-3 select_sm">
 																					<label>Grade</label>
-																					<select class="form-control select2 form-control-sm w-100 grade_id" name="input[<?php echo $i; ?>][grade_id]" data-placeholder="Select Grade">
+																					<select class="form-control select2 form-control-sm w-100 grade_id" readonly name="input[<?php echo $i; ?>][grade_id]" data-placeholder="Select Grade">
 																						<option value="">Select Grade</option>
 																						<?php if (isset($grade_list)) {
 																							foreach ($grade_list as $grade_list2) { ?>
@@ -518,7 +518,7 @@
 														</select> -->
 
 
-															<select class="form-control select2" multiple  name="remark_id[]" id="remark_id[]" data-placeholder="Select Remark">
+															<select class="form-control select2" multiple name="remark_id[]" id="remark_id[]" data-placeholder="Select Remark">
 																<option value="">Select Remark</option>
 																<?php if (isset($remark_list)) {
 																	foreach ($remark_list as $list) { ?>
@@ -703,19 +703,7 @@
 			}
 		});
 
-
-		$.ajax({
-			url: '<?php echo base_url(); ?>Master/get_grade_list_by_item',
-			type: 'POST',
-			//   data: {"item_id":item_id},
-			data: {
-				"item_id": ""
-			},
-			context: this,
-			success: function(result2) {
-				$('.grade_id').html(result2);
-			}
-		});
+		
 
 	});
 
@@ -742,6 +730,18 @@
 
 				// alert(data['po_item_info']['po_item_id']);
 				// $(this).closest('tr').find('.process_type_id').html(result);
+			}
+		});
+
+		$.ajax({
+			url: '<?php echo base_url(); ?>Master/get_grade_list_by_po',
+			type: 'POST',
+			data: {
+				"po_item_id": po_item_id
+			},
+			context: this,
+			success: function(result2) {
+				$('.grade_id').html(result2);
 			}
 		});
 
@@ -1112,5 +1112,8 @@
 	$('#myTable1').on('click', '.rem_row', function() {
 		$(this).closest('tr').remove();
 		final_calculation();
+	});
+	$('.grade_id').on('select2:opening', function(e) {
+		return false;
 	});
 </script>
