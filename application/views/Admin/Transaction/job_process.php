@@ -703,7 +703,7 @@
 			}
 		});
 
-		
+
 
 	});
 
@@ -727,9 +727,39 @@
 				$(this).closest('tr').find('.job_item_pending_qty').val(data['totalPending_qty']);
 				$("#pending_qty").val(data['totalPending_qty']);
 
+				var this_row        = $(this);
+				var po_process_type_id = data['po_item_info']['process_type_id'];
+				var po_department_id   = data['department_id'];
 
-				// alert(data['po_item_info']['po_item_id']);
-				// $(this).closest('tr').find('.process_type_id').html(result);
+				// Load Current Department options (user-scoped) then set PO's department
+				$.ajax({
+					url: '<?php echo base_url(); ?>Master/get_department_by_process_type_user',
+					type: 'POST',
+					data: {"process_type_id": po_process_type_id},
+					success: function(dept_result) {
+						var $dept_sel = this_row.closest('tr').find('.department_id');
+						$dept_sel.html(dept_result);
+						if (po_department_id) {
+							$dept_sel.val(po_department_id);
+						}
+						if ($dept_sel.hasClass('select2-hidden-accessible')) {
+							$dept_sel.trigger('change.select2');
+						}
+					}
+				});
+
+				// Load Next Department (ok_department_id) options
+				$.ajax({
+					url: '<?php echo base_url(); ?>Master/get_department_by_process_type',
+					type: 'POST',
+					data: {"process_type_id": po_process_type_id},
+					success: function(ok_dept_result) {
+						this_row.closest('tr').find('.ok_department_id').html(ok_dept_result);
+						if (this_row.closest('tr').find('.ok_department_id').hasClass('select2-hidden-accessible')) {
+							this_row.closest('tr').find('.ok_department_id').trigger('change.select2');
+						}
+					}
+				});
 			}
 		});
 
@@ -755,12 +785,7 @@
 			context: this,
 			success: function(result) {
 				$(this).closest('tr').find('.process_type_id').html(result);
-
-				// get_department_by_process_type
-				var process_type_id = $(this).closest('tr').find('.process_type_id').find("option:selected").val();
-				var this_row = $(this);
-
-				department_by_process(process_type_id, this_row);
+				// NOTE: department loading is handled above via PO data — skip department_by_process here
 			}
 		});
 	});
@@ -925,6 +950,15 @@
 		} else {
 
 			$(this).closest('tr').find('.job_item_pending_qty').val(job_item_pending_qty);
+		}
+	});
+	$(document).ready(function() {
+		if (window.location.href.includes("edit_job_process")) {
+			setTimeout(function() {
+				console.log("calling functions");
+
+				$('.po_item_id').trigger('change');
+			}, 2000);
 		}
 	});
 </script>

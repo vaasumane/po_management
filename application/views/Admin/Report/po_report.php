@@ -262,64 +262,47 @@
 																	<?php
 																	$department_list = $this->Master_Model->get_data('admi_department', 'department_id,department_name', ['process_type_id' => $process_type_id], '`department_id` ASC', 'result');
 
-
 																	foreach ($department_list as $department_list2) {
 																		$department_id = $department_list2->department_id;
 
-																		$tot_added_qty = 0;
-																		$tot_used_qty = 0;
+																		// Total qty received INTO this department for this PO
+																		// = sum of ok_qty mapped TO this department from job process entries
+																		$in_qty_row = $this->db
+																			->select('SUM(admi_job_item.job_item_ok_qty) as in_qty')
+																			->from('admi_job_item')
+																			->join('admi_job_process', 'admi_job_process.job_process_id = admi_job_item.job_process_id', 'inner')
+																			->where('admi_job_item.po_item_id', $po_item_id)
+																			->where('admi_job_item.ok_department_id', $department_id)
+																			->where('admi_job_process.tran_type', 1)
+																			->get()->row_array();
+																		$in_qty = (float)($in_qty_row['in_qty'] ?? 0);
 
-																		// $tot_added = $this->Master_Model->get_data('admi_dep_qty', 'SUM(dep_qty) as tot_added_qty', ['department_id' => $department_id, 'item_id' => $item_id, 'job_item_id' => $job_item_id, 'dep_qty_entry_type' => '1'], '`dep_qty_id` ASC', 'row_array');
-																		// $tot_used = $this->Master_Model->get_data('admi_dep_qty', 'SUM(dep_qty) as tot_used_qty', ['department_id' => $department_id, 'item_id' => $item_id, 'job_item_id' => $job_item_id, 'dep_qty_entry_type' => '2'], '`dep_qty_id` ASC', 'row_array');
-
-
-																		// $tot_added = $this->Master_Model->get_data('admi_dep_qty', 'SUM(dep_qty) as tot_added_qty', ['department_id' => $department_id, 'po_item_id' => $po_item_id,   'dep_qty_entry_type' => '1'], '`dep_qty_id` ASC', 'row_array');
-																		// $tot_used = $this->Master_Model->get_data('admi_dep_qty', 'SUM(dep_qty) as tot_used_qty', ['department_id' => $department_id, 'po_item_id' => $po_item_id,  'dep_qty_entry_type' => '2'], '`dep_qty_id` ASC', 'row_array');
-
-																		$tot_added = $this->db
-																			->select('SUM(dep_qty) as tot_added_qty')
-																			->from('admi_dep_qty')
-																			->where('department_id', $department_id)
-																			->where('po_item_id', $po_item_id)
-																			->where_in('job_item_id', $job_item_infoIds)
-																			->where('dep_qty_entry_type', 1)
-																			->order_by('dep_qty_id', 'ASC')
-																			->get()
-																			->row_array();
-																		$tot_used = $this->db
-																			->select('SUM(dep_qty) as tot_used_qty')
-																			->from('admi_dep_qty')
-																			->where('department_id', $department_id)
-																			->where('po_item_id', $po_item_id)
-																			->where_in('job_item_id', $job_item_infoIds)
-																			->where('dep_qty_entry_type', 2)
-																			->order_by('dep_qty_id', 'ASC')
-																			->get()
-																			->row_array();
-																		if ($tot_added && $tot_added['tot_added_qty'] > 0) {
-																			$tot_added_qty = $tot_added['tot_added_qty'];
-																		}
-																		if ($tot_used && $tot_used['tot_used_qty'] > 0) {
-																			$tot_used_qty = $tot_used['tot_used_qty'];
+																		// If this is the PO's own starting department and no in_qty yet, seed with PO qty
+																		$po_dept_id = isset($list->department_id) ? (int)$list->department_id : 0;
+																		if ($po_dept_id === (int)$department_id && $in_qty == 0) {
+																			$in_qty = (float)$list->po_item_qty;
 																		}
 
-																		$tot_balance_qty = $tot_added_qty - $tot_used_qty;
+																		// Total qty sent OUT from this department (ok_qty where current dept = this dept)
+																		$out_qty_row = $this->db
+																			->select('SUM(admi_job_item.job_item_ok_qty) as out_qty')
+																			->from('admi_job_item')
+																			->join('admi_job_process', 'admi_job_process.job_process_id = admi_job_item.job_process_id', 'inner')
+																			->where('admi_job_item.po_item_id', $po_item_id)
+																			->where('admi_job_item.department_id', $department_id)
+																			->where('admi_job_process.tran_type', 1)
+																			->get()->row_array();
+																		$out_qty = (float)($out_qty_row['out_qty'] ?? 0);
 
-																		$this->db->select_sum('job_item_reject_qty');
-																		$this->db->where('po_item_id', $po_item_id);
-																		$this->db->where('rejected_department_id', $department_id);
-																		$query = $this->db->get('admi_job_item')->row_array();
+																		$pending_at_dept = $in_qty - $out_qty;
+																		if ($pending_at_dept < 0) { $pending_at_dept = 0; }
 
-																		$rejectedQty = $query['job_item_reject_qty'];
-																		// After minus rejected
-																		$tot_balance_qty = $tot_balance_qty - $rejectedQty;
-
-																		if ($tot_balance_qty < 0) {
-																			$tot_balance_qty = 0;
+																		if ($in_qty > 0) {
+																			echo '<td class="wt_100">' . $pending_at_dept . '</td>';
+																		} else {
+																			echo '<td class="wt_100 text-center text-muted">-</td>';
 																		}
-																	?>
-																		<td class="wt_100"><?= $tot_balance_qty; ?></td>
-																	<?php	} ?>
+																	} ?>
 																</tr>
 															<?php }  ?>
 

@@ -95,6 +95,7 @@
                           <tr>
                             <th class="f-14 wtm_150">Drawing No</th>
                             <th class="f-14 wtm_150">Process Type</th>
+                            <th class="f-14 wtm_150">Department</th>
                             <th class="f-14 wtm_100">Description</th>
                             <th class="f-14 wtm_100">Grade</th>
                             <th class="f-14 ">Sr. No.</th>
@@ -110,6 +111,7 @@
 															$item_data = $this->Master_Model->get_data('admi_item','process_type_id,grade_id',['item_id'=>$list->item_id],'`item_id` ASC','row_array');
 															$process_type_list = $this->Master_Model->get_data('admi_process_type','*',['process_type_id'=>$item_data['process_type_id']],'`process_type_id` ASC','result');
 															$grade_list = $this->Master_Model->get_data('admi_grade','*',['grade_id'=>$item_data['grade_id']],'`grade_id` ASC','result');
+															$po_dept_list = $this->Master_Model->get_data('admi_department','*',['process_type_id'=>$list->process_type_id],'`department_name` ASC','result');
 														?>														
 
                               <input type="hidden" name="input[<?php echo $i; ?>][po_item_id]" value="<?php echo $list->po_item_id; ?>">
@@ -127,6 +129,14 @@
                                     <option value="">Select Process Type</option>
                                     <?php if(isset($process_type_list)){ foreach ($process_type_list as $process_type_list2) { ?>
                                     <option value="<?php echo $process_type_list2->process_type_id; ?>" <?php  if($list->process_type_id == $process_type_list2->process_type_id){ echo ' selected'; } if($process_type_list2->process_type_status == 0){ echo ' disabled'; } ?> ><?php echo $process_type_list2->process_type_name; ?></option>
+                                    <?php } } ?>
+                                  </select>
+                                </td>
+                                <td class="select_sm wtm_150">
+                                  <select class="form-control select2 form-control-sm po_department_id w-100" name="input[<?php echo $i; ?>][department_id]" data-placeholder="Select Department" required>
+                                    <option value="">Select Department</option>
+                                    <?php if(isset($po_dept_list)){ foreach ($po_dept_list as $dept) { ?>
+                                    <option value="<?php echo $dept->department_id; ?>" <?php if(isset($list->department_id) && $list->department_id == $dept->department_id){ echo ' selected'; } if($dept->department_status == 0){ echo ' disabled'; } ?>><?php echo $dept->department_name; ?></option>
                                     <?php } } ?>
                                   </select>
                                 </td>
@@ -178,6 +188,11 @@
                                     <?php if(isset($process_type_list)){ foreach ($process_type_list as $process_type_list2) { ?>
                                     <option value="<?php echo $process_type_list2->process_type_id; ?>" <?php if($process_type_list2->process_type_status == 0){ echo ' disabled'; } ?> ><?php echo $process_type_list2->process_type_name; ?></option>
                                     <?php } } ?>
+                                  </select>
+                                </td>
+                                <td class="select_sm wtm_150">
+                                  <select class="form-control select2 form-control-sm po_department_id w-100" name="input[0][department_id]" data-placeholder="Select Department" required>
+                                    <option value="">Select Department</option>
                                   </select>
                                 </td>
                                 <td class="wtm_100">
@@ -351,21 +366,28 @@
 	// get_process_type_list_by_item...
 	$(document).on("change", ".item_id", function(){
     var item_id =  $(this).find("option:selected").val();
+    var this_row = $(this);
     $.ajax({
       url:'<?php echo base_url(); ?>Master/get_process_type_list_by_item',
       type: 'POST',
       data: {"item_id":item_id},
       context: this,
       success: function(result){
-				$(this).closest('tr').find('.process_type_id').html(result);
-				var process_type_id =  $(this).closest('tr').find('.process_type_id').val();
+				this_row.closest('tr').find('.process_type_id').html(result);
 
-				var po_item_descr = $(this).closest('tr').find('.process_type_id').find("option:selected").attr('po_item_descr');
-				var po_item_casting_drg_no = $(this).closest('tr').find('.process_type_id').find("option:selected").attr('po_item_casting_drg_no');
+				// After process type is loaded, auto-select first valid option and load departments
+				var process_type_id = this_row.closest('tr').find('.process_type_id').val();
 
-				$(this).closest('tr').find('.po_item_descr').val(po_item_descr);
-				$(this).closest('tr').find('.po_item_casting_drg_no').val(po_item_casting_drg_no);
-				// alert(po_item_descr);
+				var po_item_descr = this_row.closest('tr').find('.process_type_id').find("option:selected").attr('po_item_descr');
+				var po_item_casting_drg_no = this_row.closest('tr').find('.process_type_id').find("option:selected").attr('po_item_casting_drg_no');
+
+				this_row.closest('tr').find('.po_item_descr').val(po_item_descr);
+				this_row.closest('tr').find('.po_item_casting_drg_no').val(po_item_casting_drg_no);
+
+				// Load departments for the auto-selected process type
+				if(process_type_id){
+					po_load_departments(process_type_id, this_row);
+				}
       }
     });
 
@@ -375,7 +397,7 @@
       data: {"item_id":item_id},
       context: this,
       success: function(result2){
-				$('.grade_id').html(result2);
+					$(this).closest('tr').find('.grade_id').html(result2);
       }
     });
   });
@@ -407,6 +429,11 @@
 					'<?php if(isset($process_type_list)){ foreach ($process_type_list as $process_type_list2) { ?>'+
 					'<option value="<?php echo $process_type_list2->process_type_id; ?>" <?php if($process_type_list2->process_type_status == 0){ echo ' disabled'; } ?> ><?php echo $process_type_list2->process_type_name; ?></option>'+
 					'<?php } } ?>'+
+				'</select>'+
+			'</td>'+
+			'<td class="select_sm wtm_150">'+
+				'<select class="form-control search_select1 form-control-sm po_department_id w-100" name="input['+i+'][department_id]" data-placeholder="Select Department" required>'+
+					'<option value="">Select Department</option>'+
 				'</select>'+
 			'</td>'+
 			'<td class="wtm_100">'+
@@ -464,7 +491,28 @@
   });
 
 
-	
+	// get_department_by_process_type for PO rows...
+	function po_load_departments(process_type_id, context_el) {
+		$.ajax({
+			url: '<?php echo base_url(); ?>Master/get_department_by_process_type',
+			type: 'POST',
+			data: {"process_type_id": process_type_id},
+			success: function(result){
+				context_el.closest('tr').find('.po_department_id').html('<option value="">Select Department</option>' + result);
+				// re-init select2 if needed
+				if(context_el.closest('tr').find('.po_department_id').hasClass('select2-hidden-accessible')){
+					context_el.closest('tr').find('.po_department_id').trigger('change.select2');
+				}
+			}
+		});
+	}
 
+	// When process type is manually changed in a PO row, reload departments
+	$(document).on("change", ".process_type_id", function(){
+		var process_type_id = $(this).find("option:selected").val();
+		if(process_type_id){
+			po_load_departments(process_type_id, $(this));
+		}
+	});
 
 </script>

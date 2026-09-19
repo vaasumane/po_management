@@ -238,6 +238,8 @@ class User extends CI_Controller
       $user_name = ucwords($user_name);
       $update_data['user_name'] = $user_name;
       unset($update_data['old_user_image']);
+      unset($update_data['department_id']);
+      unset($update_data['process_type_id']);
       $update_data['user_status'] = $user_status;
       $update_data['user_updatedby'] = $admi_user_data['user_id'];
       $update_data['user_updated_at'] = date('Y-m-d H:i:s');
@@ -249,7 +251,10 @@ class User extends CI_Controller
       if ($check_mob && $_POST['user_mobile'] != $user_info[0]['user_mobile']) {
         $this->_set_flashdata_and_redirect('User/user_information', 'Mobile number exist, Record not saved', 'error');
       } else {
-        $this->Master_Model->update_info('user_id', $user_id, 'admi_user', $update_data);
+     
+        
+        $update = $this->Master_Model->update_info('user_id', $user_id, 'admi_user', $update_data);
+          
         $current_process = $this->db
           ->select('process_type_id')
           ->where('user_id', $user_id)

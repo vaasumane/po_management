@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------
@@ -78,10 +78,11 @@ $db['default'] = array(
 	'hostname' => 'localhost',
 	// 'username' => 'u106204003_po_system',
 	// 'password' => 'POSystem@123',
-		'username' => 'root',
+	'port' => '8001',
+	'username' => 'root',
 	'password' => '',
 	// 'database' => 'po_system',
-	'database' => 'new_po_sys',
+	'database' => 'project_admin',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

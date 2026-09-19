@@ -803,6 +803,8 @@ class Transaction extends CI_Controller
 		$data['po_item_info'] = $po_item_info;
 		$data['purchase_order_info'] = $purchase_order_info;
 		$data['totalPending_qty'] = $totalPending_qty;
+		// Include department_id from the PO item so job_process can auto-fill current department
+		$data['department_id'] = isset($po_item_info['department_id']) ? $po_item_info['department_id'] : '';
 
 		echo json_encode($data);
 	}
